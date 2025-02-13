@@ -1,37 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="src/css/styles.css" />
     <link rel="stylesheet" href="src/css/animations.css" />
     <script type="module" src="/src/js/main.js" defer></script>
     <title>BATTLESHIPS</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <main class="main container">
-        <div class="screen container">
-            <div id="player" class="game-grid display">
-
-            </div>
-            <div id="opponent" class="game-grid display">
-
-            </div>
+      <div class="screens container">
+        <div class="screen">
+          <div id="player" class="game-grid display"></div>
         </div>
-        <div class="fleet container">
-
+        <div class="screen">
+          <div id="opponent" class="game-grid display"></div>
         </div>
-        <div class="button container">
-            <div class="big-red-button"></div>
-        </div>
-        <div class="instuctions container">
-            <div id="instructions" class="display">
-
-            </div>
-        </div>
+      </div>
+      <div class="fleet container"></div>
+      <div class="button container">
+        <div class="big-red-button"></div>
+      </div>
+      <div class="instuctions container">
+        <div id="instructions" class="display"></div>
+      </div>
     </main>
-</body>
-
+  </body>
 </html>
