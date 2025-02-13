@@ -1,6 +1,5 @@
 * {
     box-sizing: border-box;
-    border: solid 1px red;
     margin: 0;
 }
 
@@ -50,13 +49,15 @@ body {
 }
 
 .game-grid {
-    background-color: lime;
+    overflow: hidden;
+    border: solid 1px lime;
+    box-shadow: 0 0 0 4px black;
+    background-color: black;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    gap: 1px;
 }
 
 .grid-square {
-    background-color: black;
+    border: solid 1px lime;
 }
