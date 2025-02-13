@@ -1,5 +1,5 @@
 'use-strict'
 
-import { createGrid } from "./CreateGrid"
+import { createGrid } from "./CreateGrid.js"
 
 createGrid();
