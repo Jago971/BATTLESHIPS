@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+    border: solid 1px red;
+    margin: 0;
+}
+
+.container:not(.main) {
+    padding: 1vw;
+    border-radius: 2vw;
+}
+
+.main.container {
+    padding: 1vw;
+    height: 100vh;
+    max-width: 100%;
+    display: grid;
+    gap: 1vw;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 3fr 1fr;
+    grid-template-areas:
+    "screen screen screen"
+    "fleet button instructions"
+}
+
+.screen {
+    display: flex;
+    justify-content: space-evenly;
+    grid-area: screen
+}
+
+.display {
+    height: 100%;
+    border-radius: 1vw;
+}
+
+.game-grid {
+    aspect-ratio: 1;
+}
