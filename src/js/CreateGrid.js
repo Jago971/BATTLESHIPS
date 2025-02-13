@@ -10,14 +10,14 @@ export function createGrid() {
 
             if (i && i < 11) {
                 const label = document.createElement("p");
-                label.innerText = `${i}`;
+                label.textContent = `${i}`;
                 gridSquare.append(label);
             }
 
             if (i && i % 11 === 0) {
                 const label = document.createElement("p");
                 const uniCodeLetter = String.fromCharCode(j + 65);
-                label.innerText = uniCodeLetter;
+                label.textContent = uniCodeLetter;
                 gridSquare.append(label);
                 j++;
             }
