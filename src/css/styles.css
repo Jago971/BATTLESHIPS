@@ -54,10 +54,14 @@ body {
     box-shadow: 0 0 0 4px black;
     background-color: black;
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 1fr);
+    grid-template-columns: repeat(11, 1fr);
+    grid-template-rows: repeat(11, 1fr);
 }
 
 .grid-square {
     border: solid 1px lime;
+}
+
+p {
+    color: white;
 }
