@@ -10,7 +10,7 @@ export function createGrid() {
 
             if (i && i < 11) {
                 const label = document.createElement("p");
-                label.textContent = `${i}`;
+                label.textContent = i;
                 gridSquare.append(label);
             }
 
