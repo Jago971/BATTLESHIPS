@@ -7,19 +7,19 @@ export function createGrid() {
             const gridSquare = document.createElement("div");
             gridSquare.classList.add("grid-square");
             container.append(gridSquare);
-            
-            if (i % 11 === 0 && i != 0) {
+
+            if (i && i < 11) {
+                const label = document.createElement("p");
+                label.innerText = `${i}`;
+                gridSquare.append(label);
+            }
+
+            if (i && i % 11 === 0) {
                 const label = document.createElement("p");
                 const uniCodeLetter = String.fromCharCode(j + 65);
                 label.innerText = uniCodeLetter;
                 gridSquare.append(label);
                 j++;
-            }
-
-            if (i > 0 && i < 11) {
-                const label = document.createElement("p");
-                label.innerText = `${i}`;
-                gridSquare.append(label);
             }
         }
     });
