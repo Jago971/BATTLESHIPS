@@ -13,7 +13,7 @@ body {
     background-color: gray;
 }
 
-.main.container {
+.main {
     height: 100vh;
     padding: 1vw;
     gap: 1vw;
@@ -28,25 +28,37 @@ body {
 .screens {
     grid-area: screen;
     display: flex;
+    gap: 1vw;
 }
 
-.screen {
-    border: solid 1px white;
+.screen-divider {
     width: 50%;
     position: relative;
+}
+
+.display {
+    border-radius: 1vw;
+    box-shadow: 0 0 0 0.25vw black;
 }
 
 .game-grid {
     position: absolute;
     margin: auto;
     inset: 0;
-    border: solid 1px white;
     aspect-ratio: 1;
     max-width: 100%;
     max-height: 100%;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
+
+    border: solid 1px lime;
+    background-color: black;
+    overflow: hidden;
+}
+
+.grid-square {
+    border: solid 1px lime;
 }
 
 .button {

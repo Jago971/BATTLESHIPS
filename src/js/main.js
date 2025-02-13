@@ -2,4 +2,4 @@
 
 import { createGrid } from "./CreateGrid.js"
 
-// createGrid();
+createGrid();
