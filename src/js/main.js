@@ -6,14 +6,18 @@ import { selectShip } from "./selectShip.js";
 
 const button = document.querySelector(".button .inner");
 const ships = document.querySelectorAll(".ship");
+let sonar = false;
 
 createGrid();
 
-window.onload = function () {
-  const sonarEcho = new Audio("/assets/sounds/sonar-echo.mp3");
-  sonarEcho.volume = 0.5;
-  sonarEcho.loop = true;
-  sonarEcho.play();
+window.onclick = function () {
+  if (!sonar) {
+    const sonarEcho = new Audio("/assets/sounds/sonar-echo.mp3");
+    sonarEcho.volume = 0.5;
+    sonarEcho.loop = true;
+    sonarEcho.play();
+    sonar = true;
+  }
 };
 
 button.addEventListener("click", () => {

@@ -54,8 +54,14 @@ main {
   position: relative;
   padding: 2cqw;
   border-radius: 1cqw;
-  background: linear-gradient(135deg, #5a5a5a 0%, #8a8a8a 30%, #6e6e6e 50%, #8a8a8a 70%, #5a5a5a 100%);
-
+  background: linear-gradient(
+    135deg,
+    #5a5a5a 0%,
+    #8a8a8a 30%,
+    #6e6e6e 50%,
+    #8a8a8a 70%,
+    #5a5a5a 100%
+  );
 }
 
 .screens {
@@ -82,9 +88,10 @@ main {
 
 .instructions > .display {
   font-family: anonymous pro;
+  font-size: 1.25cqw;
   line-height: 1.25;
   color: var(--display-edge-color);
-  padding: 1cqw
+  padding: 1cqw;
 }
 
 .display {
@@ -374,5 +381,107 @@ main {
   100% {
     background-color: gray;
     box-shadow: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  main {
+    aspect-ratio: 9 / 18;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 9fr 4.5fr 4.5fr;
+    grid-template-areas:
+      "screen screen"
+      "fleet instructions"
+      "fleet button";
+  }
+
+  .attack.display.game-grid {
+    position: absolute;
+    width: calc(100% - 4cqw);
+    height: calc(100% - 4cqw);
+  }
+
+  .inlay {
+    gap: 4cqw;
+    flex-direction: column;
+  }
+
+  .ship {
+    width: 10cqw;
+    flex-direction: column;
+  }
+
+  .carrier {
+    height: 50cqw;
+  }
+
+  .destroyer {
+    height: 40cqw;
+  }
+
+  .cruiser {
+    height: 30cqw;
+  }
+
+  .submarine {
+    height: 30cqw;
+  }
+
+  .scout {
+    height: 20cqw;
+  }
+
+  .pin {
+    height: 4cqw;
+    width: 4cqw;
+  }
+
+  @keyframes pin-flash {
+    0% {
+      background-color: gray;
+      box-shadow: none;
+    }
+    15% {
+      background-color: red;
+      box-shadow: 0 0 2cqw 0.6cqw red;
+    }
+    85% {
+      background-color: red;
+      box-shadow: 0 0 2cqw 0.6cqw red;
+    }
+    100% {
+      background-color: gray;
+      box-shadow: none;
+    }
+  }
+
+  .outter {
+    height: 75%;
+    width: 75%;
+    background: radial-gradient(
+      circle,
+      black 60%,
+      rgb(100, 100, 100) 65%,
+      black 70%
+    );
+  }
+
+  .inner {
+    height: 80%;
+    width: 80%;
+    box-shadow: -4cqw 4cqw 2cqw 1cqw;
+  }
+
+  .pressed {
+    box-shadow: none;
+  }
+
+  .instructions > .display {
+    font-size: 3cqw;
+    padding: 2cqw;
+  }
+
+  .hidden {
+    display: none;
   }
 }
