@@ -114,6 +114,11 @@ main {
 
 .grid-square {
   border: solid 0.5px var(--display-content-color);
+  z-index: 1;
+}
+
+.grid-square:hover {
+  cursor: pointer;
 }
 
 .ring {
