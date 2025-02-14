@@ -6,26 +6,78 @@
     <link rel="stylesheet" href="src/css/styles.css" />
     <link rel="stylesheet" href="src/css/animations.css" />
     <script type="module" src="src/js/main.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
     <title>BATTLESHIPS</title>
   </head>
 
   <body>
-    <main class="main container">
+    <main>
+      <div class="margin left"></div>
       <div class="screens container">
-        <div class="screen-divider">
-          <div id="player" class="game-grid display"></div>
-        </div>
-        <div class="screen-divider">
-          <div id="opponent" class="game-grid display"></div>
+        <div class="display game-grid"></div>
+        <div class="display game-grid">
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="swoosh"></div>
         </div>
       </div>
-      <div class="fleet container"></div>
+      <div class="fleet container">
+        <div class="inlay">
+          <div class="inlay-floor"></div>
+          <div class="carrier ship">
+            <div class="pin red"></div>
+            <div class="pin red"></div>
+            <div class="pin"></div>
+            <div class="pin"></div>
+            <div class="pin"></div>
+          </div>
+          <div class="destroyer ship selected">
+            <div class="pin"></div>
+            <div class="pin"></div>
+            <div class="pin"></div>
+            <div class="pin"></div>
+          </div>
+          <div class="cruiser ship">
+            <div class="pin"></div>
+            <div class="pin"></div>
+            <div class="pin"></div>
+          </div>
+          <div class="submarine ship">
+            <div class="pin"></div>
+            <div class="pin"></div>
+            <div class="pin"></div>
+          </div>
+          <div class="scout ship">
+            <div class="pin"></div>
+            <div class="pin"></div>
+          </div>
+        </div>
+      </div>
       <div class="button container">
-        <div class="big-red-button"></div>
+        <div class="stripes">
+          <div class="outter center">
+            <div class="inner center"></div>
+          </div>
+        </div>
       </div>
-      <div class="instuctions container">
-        <div id="instructions" class="display"></div>
+      <div class="instructions container">
+        <div class="display">
+          <p>Are you ready, kids?</p>
+          <p>Aye-aye, Captain!</p>
+          <p>I can't hear you!</p>
+          <p>Aye-aye, Captain!</p>
+          <p>Ohhhhhh... who lives in a pineapple under the sea?</p>
+          <p>ps. click the button or a ship!</p>
+        </div>
       </div>
+      <div class="margin right"></div>
     </main>
   </body>
 </html>
