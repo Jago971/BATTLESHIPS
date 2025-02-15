@@ -1,67 +1,483 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
+  box-sizing: border-box;
+  margin: 0;
+  user-select: none; /* Standard */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/brighter */
 }
 
-body {
-    background-color: black;
+:root {
+  --background: rgb(25, 25, 25);
+  --panel-background: gray;
+  --display-brighter-green: lime;
+  --display-content-green: rgba(0, 255, 0, 0.5);
+  --display-background: black;
+  --stripes: rgb(255, 230, 0);
+  --inlay-grey: rgb(155, 155, 155);
+  --ship-grey: rgb(85, 90, 90);
+  --selected-ship: rgba(130, 255, 40, 0.5);
 }
 
-.container:not(.main) {
-    padding: 1vw;
-    border-radius: 2vw;
-    background-color: gray;
-}
-
-.main.container {
-    margin: 0 auto;
-    padding: 1vw 0;
-    height: 100vh;
-    width: fit-content;
-    display: grid;
-    gap: 1vw;
-    grid-template-columns: 1fr auto 1fr;
-    grid-template-rows: 3fr 1fr;
-    grid-template-areas:
-    "screen screen screen"
-    "fleet button instructions"
-}
-
-.screen {
-    display: flex;
-    justify-content: space-evenly;
-    grid-area: screen;
-    gap: 1vw;
-}
-
-.display {
-    height: 100%;
-    border-radius: 1vw;
-}
-
-.game-grid, .button, .big-red-button {
-    aspect-ratio: 1; 
-}
-
-.big-red-button{
-    border-radius: 100%;
-    background-color: red;
-}
-
-.game-grid {
-    overflow: hidden;
-    border: solid 1px lime;
-    box-shadow: 0 0 0 4px black;
-    background-color: black;
-    display: grid;
-    grid-template-columns: repeat(11, 1fr);
-    grid-template-rows: repeat(11, 1fr);
-}
-
-.grid-square {
-    border: solid 1px lime;
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 p {
-    color: white;
+  color: var(--display-brighter-green);
+  font-family: anonymous pro;
+}
+
+body {
+  background-color: var(--background);
+  height: 100vh;
+  width: 100%;
+}
+
+main {
+  container-type: size;
+  position: absolute;
+  margin: auto;
+  inset: 0;
+  max-width: calc(100% - 1vw);
+  max-height: calc(100% - 1vw);
+  aspect-ratio: 16 / 10;
+
+  display: grid;
+  gap: min(1vw, 18px);
+  grid-template-columns: 1fr 5.5fr 1.5fr 1.5fr 5.5fr 1fr;
+  grid-template-rows: 7fr 3fr;
+  grid-template-areas:
+    "margin-left screen screen screen screen margin-right"
+    "margin-left fleet button button instructions margin-right";
+}
+
+.container {
+  position: relative;
+  padding: 2cqw;
+  border-radius: 1cqw;
+  background: linear-gradient(
+    135deg,
+    #5a5a5a 0%,
+    #8a8a8a 30%,
+    #6e6e6e 50%,
+    #8a8a8a 70%,
+    #5a5a5a 100%
+  );
+}
+
+.screens {
+  grid-area: screen;
+  display: flex;
+  gap: 4cqw;
+}
+
+.screens.display {
+  aspect-ratio: 1;
+}
+
+.fleet {
+  grid-area: fleet;
+}
+
+.button {
+  grid-area: button;
+}
+
+.instructions {
+  grid-area: instructions;
+}
+
+.instructions > .display {
+  font-size: 1.25cqw;
+  line-height: 1.25;
+  padding: 1cqw;
+}
+
+.display {
+  position: relative;
+  background: linear-gradient(
+    to top right,
+    black 0%,
+    black 50%,
+    rgb(125, 125, 125) 100%
+  );
+  width: 100%;
+  height: 100%;
+  border-radius: 1cqw;
+  box-shadow: inset -0.5cqw 0.5cqw 1cqw 0.1cqw rgba(255, 255, 255, 0.6),
+    inset 0.15cqw -0.15cqw 1cqw 0.15cqw rgba(0, 255, 0, 0.5),
+    inset 0.5px -0.5px 0 1px var(--display-brighter-green),
+    0 0 0 0.25cqw var(--display-background);
+  background-color: var(--display-background);
+  overflow: hidden;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  grid-template-rows: repeat(11, 1fr);
+}
+
+.grid-square {
+  font-size: 2.5cqw;
+  border: solid 0.5px var(--display-content-green);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.grid-square:hover {
+  cursor: pointer;
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: solid 2px var(--display-content-green);
+}
+
+.ring:nth-of-type(1) {
+  height: 91%;
+  width: 91%;
+  top: 9%;
+  left: 9%;
+}
+.ring:nth-of-type(2) {
+  height: 54.5%;
+  width: 54.5%;
+  top: 27.3%;
+  left: 27.3%;
+}
+.ring:nth-of-type(3) {
+  height: 18.2%;
+  width: 18.2%;
+  top: 45.5%;
+  left: 45.5%;
+}
+
+.swoosh {
+  position: absolute;
+  height: 91%;
+  width: 91%;
+  top: 9%;
+  left: 9%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    var(--display-content-green) 90deg,
+    transparent 90deg
+  );
+  animation: swoosh 5s linear infinite;
+}
+
+@keyframes swoosh {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.stripes {
+  height: 100%;
+  width: 100%;
+  border-radius: 0.5cqw;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--stripes) 0%,
+    var(--stripes) 7.5%,
+    transparent 7.5%,
+    transparent 15%
+  );
+}
+
+.outter {
+  height: 50%;
+  width: 50%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    black 50%,
+    rgb(100, 100, 100) 60%,
+    black 70%
+  );
+}
+
+.inner:hover {
+  cursor: pointer;
+}
+
+.inner {
+  height: 70%;
+  width: 70%;
+  border-radius: 100%;
+  box-shadow: -1cqw 1cqw 0.5cqw 0.25cqw;
+  background: linear-gradient(
+    to top right,
+    rgb(100, 0, 0),
+    rgb(100, 0, 0) 40%,
+    red 60%,
+    rgb(255, 175, 175) 100%
+  );
+  transition: box-shadow 0.5s ease;
+}
+
+.inner::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, red 50%, transparent 60%);
+}
+
+.inner::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  transition: background-color 0.75s ease;
+  z-index: 1;
+}
+
+.pressed {
+  box-shadow: none;
+}
+
+.pressed::before {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.inlay {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 1cqw;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.5) 15%,
+    rgba(0, 0, 0, 0.5) 77%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2cqw;
+  padding: 4cqw;
+  box-shadow: inset -1.5cqw 1.5cqw 0.75cqw rgba(0, 0, 0, 0.1);
+}
+
+.inlay:has(.ship.selected) {
+  background: linear-gradient(
+    to top,
+    rgb(0, 15, 0, 0.1) 0%,
+    rgba(0, 15, 0, 0.5) 15%,
+    rgba(0, 15, 0, 0.5) 77%,
+    rgba(0, 15, 0, 0.75) 100%
+  );
+}
+
+.inlay-floor {
+  content: "";
+  position: absolute;
+  height: calc(100% - 2cqw);
+  width: calc(100% - 2cqw);
+  top: 1cqw;
+  left: 1cqw;
+  border-radius: 0.5cqw;
+  background-image: url("/assets/images/textures/inlay-dots.svg");
+  box-shadow: inset -0.75cqw 0.75cqw 0.25cqw rgba(0, 0, 0, 0.25);
+}
+
+.ship {
+  height: 2cqw;
+  border-radius: 20%;
+  background-color: var(--ship-grey);
+  z-index: 1;
+  box-shadow: -0.05cqw 0.5cqw 0.25cqw;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  transition: box-shadow 0.1s linear;
+}
+
+.ship:hover {
+  cursor: pointer;
+}
+
+.ship.selected {
+  box-shadow: 0 0 1cqw 0.5cqw var(--selected-ship);
+}
+
+.carrier {
+  width: 10cqw;
+}
+
+.destroyer {
+  width: 8cqw;
+}
+
+.cruiser {
+  width: 6cqw;
+}
+
+.submarine {
+  width: 6cqw;
+}
+
+.scout {
+  width: 4cqw;
+}
+
+.pin {
+  height: 1cqw;
+  width: 1cqw;
+  border-radius: 25%;
+  position: relative;
+  background-color: gray;
+}
+
+.red::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 25%;
+  animation: pin-flash 2s ease-in-out infinite;
+}
+
+@keyframes pin-flash {
+  0% {
+    background-color: gray;
+    box-shadow: none;
+  }
+  15% {
+    background-color: red;
+    box-shadow: 0 0 0.5cqw 0.15cqw red;
+  }
+  85% {
+    background-color: red;
+    box-shadow: 0 0 0.5cqw 0.15cqw red;
+  }
+  100% {
+    background-color: gray;
+    box-shadow: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  main {
+    aspect-ratio: 9 / 18;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 9fr 4.5fr 4.5fr;
+    grid-template-areas:
+      "screen screen"
+      "fleet instructions"
+      "fleet button";
+  }
+
+  .attack.display.game-grid {
+    position: absolute;
+    width: calc(100% - 4cqw);
+    height: calc(100% - 4cqw);
+  }
+
+  .inlay {
+    gap: 4cqw;
+    flex-direction: column;
+  }
+
+  .ship {
+    width: 10cqw;
+    flex-direction: column;
+  }
+
+  .carrier {
+    height: 50cqw;
+  }
+
+  .destroyer {
+    height: 40cqw;
+  }
+
+  .cruiser {
+    height: 30cqw;
+  }
+
+  .submarine {
+    height: 30cqw;
+  }
+
+  .scout {
+    height: 20cqw;
+  }
+
+  .pin {
+    height: 4cqw;
+    width: 4cqw;
+  }
+
+  @keyframes pin-flash {
+    0% {
+      background-color: gray;
+      box-shadow: none;
+    }
+    15% {
+      background-color: red;
+      box-shadow: 0 0 2cqw 0.6cqw red;
+    }
+    85% {
+      background-color: red;
+      box-shadow: 0 0 2cqw 0.6cqw red;
+    }
+    100% {
+      background-color: gray;
+      box-shadow: none;
+    }
+  }
+
+  .outter {
+    height: 75%;
+    width: 75%;
+    background: radial-gradient(
+      circle,
+      black 60%,
+      rgb(100, 100, 100) 65%,
+      black 70%
+    );
+  }
+
+  .inner {
+    height: 80%;
+    width: 80%;
+    box-shadow: -4cqw 4cqw 2cqw 1cqw;
+  }
+
+  .pressed {
+    box-shadow: none;
+  }
+
+  .instructions > .display {
+    font-size: 3cqw;
+    padding: 2cqw;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .grid-square {
+  font-size: 6cqw;
+  }
 }
