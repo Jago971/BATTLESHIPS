@@ -24,8 +24,8 @@ button.addEventListener("click", () => {
   buttonPress(button);
 });
 
-ships.forEach((ship) => {
+ships.forEach((ship, index) => { // now handing all ships and the index of the chosen ship so that function can wipe ".selected" class from all of them before applying to clicked ship
   ship.addEventListener("click", () => {
-    selectShip(ship);
+    selectShip(ships, index);
   });
 });
