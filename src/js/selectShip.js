@@ -1,4 +1,5 @@
 let selectedShip = "unselected";
+let shipPlacementMode = false;
 
 const shipLengths = {
   carrier: 5,
@@ -8,17 +9,19 @@ const shipLengths = {
   scout: 2,
 };
 
-export function selectShip(ships, index) {
-  const shipId = ships[index].getAttribute("data-id"); // get the data-id attribute from the HTML e.g "subamrine"
+export function selectShip(ships, ship) {
+  const shipId = ship.getAttribute("data-id"); // get the data-id attribute from the HTML e.g "subamrine"
 
-  if (selectedShip === "unselected") { // activates when any ships is clicked
-    shipPlacementMode();
+  if (selectedShip === "unselected") {
+    // activates when any ships is clicked
+    shipPlacementMode = true;
   }
 
-  if (selectedShip === shipId) { // if the selectedShip is already the same as the function's incoming ships[index] (clicked ship) then deselect ship and end ship selection mode
-    ships[index].classList.remove("selected");
+  if (selectedShip === shipId) {
+    // if the selectedShip is already the same as the function's incoming ships[index] (clicked ship) then deselect ship and end ship selection mode
+    ship.classList.remove("selected");
     selectedShip = "unselected";
-    shipPlacementMode();
+    shipPlacementMode = false;
     return;
   }
 
@@ -30,7 +33,7 @@ export function selectShip(ships, index) {
   });
 
   console.log(selectedShip, shipLengths[selectedShip]); // then console the newly selected ship and its length from shipLengths object
-  ships[index].classList.add("selected"); // then add selected class to only the clicked ship
+  ship.classList.add("selected"); // then add selected class to only the clicked ship
 }
 
 // S3T2:
@@ -45,11 +48,32 @@ export function selectShip(ships, index) {
 
 // EXTRA - cannot click same ship multiple times
 
-function shipPlacementMode() {
-  const playerArea = document.querySelectorAll(".player-area");
-  playerArea.forEach((gridSquare) => {
-    gridSquare.classList.toggle("ship-placement-mode");
-  });
+// function shipPlacementMode() {
+//   const playerArea = document.querySelectorAll(".player-area");
+//   playerArea.forEach((gridSquare) => {
+//     gridSquare.classList.toggle("ship-placement-mode");
+//   });
+// }
+
+export function shipPreview(playerAreaSquares, square) {
+  const x = Number(square.getAttribute("data-x"));
+  const y = Number(square.getAttribute("data-y"));
+
+  if (shipPlacementMode) {
+    const length = shipLengths[selectedShip];
+
+    playerAreaSquares.forEach((square) => {
+      square.classList.remove("ship-placement");
+    });
+
+    square.classList.add("ship-placement");
+
+    for (let index = 1; index < length; index++) {
+        const subsequentSquare = document.querySelector(`[data-x="${x}"][data-y="${y + index}"]`)
+        console.log(`[data-x="${x}"][data-y="${y + index}"]`)
+        subsequentSquare.classList.add("ship-placement")
+    }
+  }
 }
 
 // S3T3:

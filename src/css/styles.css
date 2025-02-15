@@ -478,12 +478,14 @@ main {
   }
 
   .grid-square {
-  font-size: 6cqw;
+    font-size: 6cqw;
   }
 }
 
 /*S3T3 - hovered square*/
-.ship-placement-mode:hover {
+.player-area {
+  transition: background-color 0.1s ease;
+}
+.ship-placement {
   background-color: var(--display-content-green);
-  transition: background-color 0.2s ease;
 }
