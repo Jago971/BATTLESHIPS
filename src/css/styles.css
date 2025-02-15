@@ -4,19 +4,19 @@
   user-select: none; /* Standard */
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
+  -ms-user-select: none; /* Internet Explorer/brighter */
 }
 
 :root {
   --background: rgb(25, 25, 25);
   --panel-background: gray;
-  --display-edge-color: lime;
-  --display-content-color: rgba(0, 255, 0, 0.5);
+  --display-brighter-green: lime;
+  --display-content-green: rgba(0, 255, 0, 0.5);
   --display-background: black;
   --stripes: rgb(255, 230, 0);
-  --inlay-color: rgb(155, 155, 155);
-  --ship-color: rgb(85, 90, 90);
-  --selected-ship: rgba(180, 255, 125, 0.75);
+  --inlay-grey: rgb(155, 155, 155);
+  --ship-grey: rgb(85, 90, 90);
+  --selected-ship: rgba(130, 255, 40, 0.5);
 }
 
 .center {
@@ -90,7 +90,7 @@ main {
   font-family: anonymous pro;
   font-size: 1.25cqw;
   line-height: 1.25;
-  color: var(--display-edge-color);
+  color: var(--display-brighter-green);
   padding: 1cqw;
 }
 
@@ -107,7 +107,7 @@ main {
   border-radius: 1cqw;
   box-shadow: inset -0.5cqw 0.5cqw 1cqw 0.1cqw rgba(255, 255, 255, 0.6),
     inset 0.15cqw -0.15cqw 1cqw 0.15cqw rgba(0, 255, 0, 0.5),
-    inset 0.5px -0.5px 0 1px var(--display-edge-color),
+    inset 0.5px -0.5px 0 1px var(--display-brighter-green),
     0 0 0 0.25cqw var(--display-background);
   background-color: var(--display-background);
   overflow: hidden;
@@ -120,7 +120,7 @@ main {
 }
 
 .grid-square {
-  border: solid 0.5px var(--display-content-color);
+  border: solid 0.5px var(--display-content-green);
   z-index: 1;
 }
 
@@ -131,7 +131,7 @@ main {
 .ring {
   position: absolute;
   border-radius: 50%;
-  border: solid 2px var(--display-content-color);
+  border: solid 2px var(--display-content-green);
 }
 
 .ring:nth-of-type(1) {
@@ -163,7 +163,7 @@ main {
   background: conic-gradient(
     from 0deg,
     transparent 0deg,
-    var(--display-content-color) 90deg,
+    var(--display-content-green) 90deg,
     transparent 90deg
   );
   animation: swoosh 5s linear infinite;
@@ -177,21 +177,6 @@ main {
     transform: rotate(360deg);
   }
 }
-
-/* .display::after {
-    content: "";
-    position: absolute;
-    top: 1.5cqh;
-    right: 1.5cqh;
-    height: 3cqh;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.4) 10%,
-    transparent 70%
-  );
-} */
 
 .stripes {
   height: 100%;
@@ -213,8 +198,8 @@ main {
   background: radial-gradient(
     circle,
     black 50%,
-    /* Center Black */ rgb(100, 100, 100) 60%,
-    /* Middle White */ black 70% /* Outer Black */
+    rgb(100, 100, 100) 60%,
+    black 70%
   );
 }
 
@@ -234,7 +219,7 @@ main {
     red 60%,
     rgb(255, 175, 175) 100%
   );
-  transition: box-shadow 0.5s ease, background-color 0.5s ease;
+  transition: box-shadow 0.5s ease;
 }
 
 .inner::after {
@@ -310,7 +295,7 @@ main {
 .ship {
   height: 2cqw;
   border-radius: 20%;
-  background-color: var(--ship-color);
+  background-color: var(--ship-grey);
   z-index: 1;
   box-shadow: -0.05cqw 0.5cqw 0.25cqw;
   display: flex;
@@ -361,8 +346,7 @@ main {
   width: 100%;
   height: 100%;
   border-radius: 25%;
-  background-color: red;
-  animation: pin-flash 2s ease infinite;
+  animation: pin-flash 2s ease-in-out infinite;
 }
 
 @keyframes pin-flash {
