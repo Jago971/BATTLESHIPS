@@ -13,7 +13,7 @@ Technologies: HTML5, CSS3, JavaScript
   - 🤖 [Algorithmic Computer Opponent](#algorithmic-computer-opponent)
   - 📜 [Dynamic Instruction Window](#dynamic-instruction-window)
   - 🎵 [Custom Sound Effects](#custom-sound-effects)
-  - 🎨 [Custom Visuals](#custom-visuals)
+  - 🎨 [Visuals](#visuals)
 
 - 🚢 [Game Flow](#game-flow)
 
@@ -54,8 +54,11 @@ Our game includes **custom sound effects** for various in-game actions, such as 
   - **Opponent turn** – Emergency siren to represent incoming attack from the opponent.
   - **Successful Hit** – Sound of explosion to represent a devastating hit on a player or opponent ship.
   - **Unsuccessful Miss** – Sound of underwater explosion to represent a miss from either the player or opponent.
+  - **Fire Button Press** - Sound of mechanical button press, torpedo fire and sonar pin.
 
-### **Custom Visuals**
+### **Visuals**
+
+**Custom-visuals**
 
 The game features **custom designed visuals** inspired by both **classic board games** and **modern digital adaptations**.
 
@@ -71,9 +74,13 @@ The game features **custom designed visuals** inspired by both **classic board g
 
 **Reference Images:**
 
-1. [Classic Board Game Design](#)
-2. [Sonar Screen Interface](#)
-3. [Naval-Themed UI Design](#)
+1. [Classic Board Game Design](https://m.media-amazon.com/images/I/71dxTrzi6rL._AC_UF894,1000_QL80_.jpg)
+2. [Sonar Screen Interface](https://i.pinimg.com/736x/6b/48/68/6b4868ebc10520effef2ff73dfc54e21.jpg)
+3. [Naval-Sonar-Themed UI Design](https://i.pinimg.com/736x/ca/7f/5c/ca7f5c134223e3e81b5fbb8290610ee5.jpg)
+
+**Non-custom Visuals**
+
+- **Fleet Container** - bed is an SVG generated using [Pattern.Monster](https://pattern.monster/)
 
 ## Game-Flow
 
