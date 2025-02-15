@@ -481,3 +481,9 @@ main {
   font-size: 6cqw;
   }
 }
+
+/*S3T3 - hovered square*/
+.ship-placement-mode:hover {
+  background-color: var(--display-content-green);
+  transition: background-color 0.2s ease;
+}

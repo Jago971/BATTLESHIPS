@@ -12,14 +12,16 @@ export function createGrid() {
                 const label = document.createElement("p");
                 label.textContent = i;
                 gridSquare.append(label);
-            }
-
-            if (i && i % 11 === 0) {
+            } else if (i && i % 11 === 0) {
                 const label = document.createElement("p");
                 const uniCodeLetter = String.fromCharCode(j + 65);
                 label.textContent = uniCodeLetter;
                 gridSquare.append(label);
                 j++;
+            } else if (i != 0) {
+                gridSquare.setAttribute("data-x", i % 11) // sets the x-axis coordinate per grid square not including axis label squares
+                gridSquare.setAttribute("data-y", Math.floor(i / 11)) // sets the y-axis coordinate using numbers not letters - for easier data storage
+                gridSquare.classList.add("player-area") // distinguishes general grid from playable part of it where ships can be placed and shots fired
             }
         }
     });
