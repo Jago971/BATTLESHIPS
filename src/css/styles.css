@@ -481,3 +481,35 @@ main {
   font-size: 6cqw;
   }
 }
+
+.player-area {
+  transition: background-color 0.1s ease;
+}
+
+.ship-placement {
+  background-color: var(--display-content-green);
+  box-shadow: 0 0 0.5cqw 0.15cqw var(--display-content-green);
+}
+
+.option {
+  animation: option-blink 1s ease-in-out infinite;
+}
+
+@keyframes option-blink {
+  0% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+  25% {
+    background-color: var(--display-content-green);
+    box-shadow: 0 0 0.5cqw 0.15cqw var(--display-content-green);
+  }
+  75% {
+    background-color: var(--display-content-green);
+    box-shadow: 0 0 0.5cqw 0.15cqw var(--display-content-green);
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+}
