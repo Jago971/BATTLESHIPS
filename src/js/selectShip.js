@@ -8,21 +8,23 @@ const shipLengths = {
     scout: 2
 }
 
-export function selectShip(ships, index) {
-    const shipId = ships[index].getAttribute("data-id"); // get the data-id attribute from the HTML e.g "subamrine"
+export function selectShip(ships, ship) {
+    const shipId = ship.getAttribute("data-id"); // get the data-id attribute from the HTML e.g "subamrine"
     
     if(selectedShip === shipId) { // if the selectedShip is already the same as in the function's incoming ships[index] (clicked ship) then end function
+        selectedShip = "unselected";
+        ship.classList.remove("selected");
         return;
     }
 
     selectedShip = shipId;
 
     ships.forEach(ship => { // remove selected class from all ships first
-        ship.classList.remove("selected")
+        ship.classList.remove("selected");
     });
 
     console.log(selectedShip, shipLengths[selectedShip]) // then console the newly selected ship and its length from shipLengths object
-    ships[index].classList.add("selected"); // then add selected class to only the clicked ship
+    ship.classList.add("selected"); // then add selected class to only the clicked ship
 }
 
 // click ship selects it ✔️
