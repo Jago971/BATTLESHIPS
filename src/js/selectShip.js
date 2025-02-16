@@ -36,3 +36,4 @@ export function selectShip(ships, ship) {
 // selected ship console logs name and length ✔️
 
 // EXTRA - cannot click same ship multiple times
+
