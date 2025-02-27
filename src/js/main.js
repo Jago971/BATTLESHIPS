@@ -32,16 +32,16 @@ const storedShips = {
     scout: { x: [], y: [] },
   }
 };
-
-window.onclick = function () {
-  if (!sonar) {
-    const sonarEcho = new Audio("/assets/sounds/sonar-echo.mp3");
-    sonarEcho.volume = 0.5;
-    sonarEcho.loop = true;
-    sonarEcho.play();
-    sonar = true;
-  }
-};
+// COMMENTED OUT BECAUSE IT'S ANNOYING AFTER 8 HOURS.
+// window.onclick = function () {
+//   if (!sonar) {
+//     const sonarEcho = new Audio("/assets/sounds/sonar-echo.mp3");
+//     sonarEcho.volume = 0.5;
+//     sonarEcho.loop = true;
+//     sonarEcho.play();
+//     sonar = true;
+//   }
+// };
 
 button.addEventListener("click", () => {
   buttonPress(button);

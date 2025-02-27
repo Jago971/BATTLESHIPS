@@ -161,5 +161,5 @@ function addRemainingShipCoordinates (storedShips, startX, startY, endX, endY) {
       storedShips.player[selectedShip].y.push(startX + i)
     }
   }
- console.log(storedShips.player[selectedShip]);
+ console.log(storedShips.player[selectedShip], storedShips.player);
 }
