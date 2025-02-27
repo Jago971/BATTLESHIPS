@@ -4,9 +4,10 @@ import { buttonPress } from "./buttonPress.js";
 import { createGrid } from "./CreateGrid.js";
 import {
   selectShip,
-  shipGridOptions,
-  shipIniitialPlacement as shipInitialPlacement,
-} from "./selectShip.js";
+  shipInitialPlacement,
+  shipInitialHover,
+  shipLastPlacement
+} from "./shipPlacement.js";
 
 createGrid();
 
@@ -14,6 +15,23 @@ const playerAreaSquares = document.querySelectorAll(".player .player-area");
 const button = document.querySelector(".button .inner");
 const ships = document.querySelectorAll(".ship");
 let sonar = false;
+
+const storedShips = {
+  player: {
+    carrier: { x: [], y: [] },
+    destroyer: { x: [], y: [] },
+    cruiser: { x: [], y: [] },
+    submarine: { x: [], y: [] },
+    scout: { x: [], y: [] },
+  },
+  opponent: {
+    carrier: { x: [], y: [] },
+    destroyer: { x: [], y: [] },
+    cruiser: { x: [], y: [] },
+    submarine: { x: [], y: [] },
+    scout: { x: [], y: [] },
+  }
+};
 
 window.onclick = function () {
   if (!sonar) {
@@ -40,16 +58,20 @@ ships.forEach((ship) => {
 // ---stage 1 do:
 
 playerAreaSquares.forEach((square) => {
+
   square.addEventListener("mouseover", () => {
-    shipInitialPlacement(playerAreaSquares, square);
+    shipInitialHover(playerAreaSquares, square);
   });
 
-// ---stage 2 do:
+  // ---stage 2 do:
   square.addEventListener("click", () => {
-    shipGridOptions(playerAreaSquares, square);
+    if(square.classList.contains("option")) {
+      shipLastPlacement(playerAreaSquares, square, storedShips);
+    } else {
+      shipInitialPlacement(playerAreaSquares, square, storedShips);
+    }
   });
 });
-
 
 // ---stage 3 do :
 // ------event listener -> click grid option
@@ -58,13 +80,3 @@ playerAreaSquares.forEach((square) => {
 // ---------add .ship-placement to start square, option square, and all in between -> make start, middle, end all green,
 // ---------save coords to list of placedShips -> overwrite existing coordinates if present,
 // ---------repeat from stage 0 (unselected ship) without option to click any of placedShips coords
-
-const storedShip = {
-  Player: {
-    carrier: {
-      x: [1, 2, 3],
-      y: [1, 1, 1]
-    },
-  },
-  opponent: {}
-}
