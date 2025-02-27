@@ -156,11 +156,11 @@ function addRemainingShipCoordinates (storedShips, startX, startY, endX, endY) {
     }
   } else if(deltaY > 0) {
     for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].y.push(startX - i)
+      storedShips.player[selectedShip].y.push(startY - i)
     }
   } else {
     for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].y.push(startX + i)
+      storedShips.player[selectedShip].y.push(startY + i)
     }
   }
  console.log(storedShips.player[selectedShip], storedShips.player);
