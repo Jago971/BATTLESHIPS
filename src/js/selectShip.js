@@ -33,6 +33,7 @@ export function selectShip(playerAreaSquares, ships, ship) {
   ship.classList.add("selected"); // before adding one selection to chosen ship
 }
 
+
 export function shipGridStart(playerAreaSquares, square) {
   if (shipPlacementStage === 1) {
     // checks correct stage
@@ -42,6 +43,7 @@ export function shipGridStart(playerAreaSquares, square) {
     square.classList.add("ship-placement"); // apply green to hovered square
   }
 }
+
 
 export function shipGridOptions(playerAreaSquares, square) {
   const x = Number(square.getAttribute("data-x"));

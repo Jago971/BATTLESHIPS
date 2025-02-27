@@ -6,7 +6,7 @@ import { selectShip, shipGridOptions, shipGridStart } from "./selectShip.js";
 
 createGrid();
 
-const playerAreaSquares = document.querySelectorAll(".player-area")
+const playerAreaSquares = document.querySelectorAll(".player .player-area")
 const button = document.querySelector(".button .inner");
 const ships = document.querySelectorAll(".ship");
 let sonar = false;
