@@ -98,7 +98,7 @@ export function shipLastPlacement(
   clickedSquare,
   storedShips
 ) {
-  const startX = storedShips.player[selectedShip].y[0];
+  const startX = storedShips.player[selectedShip].x[0];
   const startY = storedShips.player[selectedShip].y[0];
   const endX = Number(clickedSquare.getAttribute("data-x"));
   const endY = Number(clickedSquare.getAttribute("data-y"));
@@ -109,14 +109,14 @@ export function shipLastPlacement(
 
   addRemainingShipCoordinates(storedShips, startX, startY, endX, endY);
 
-  // for (let index = 1; index < shipLengths[selectedShip] - 1; index++) {
-  //   const x = storedShips.player[selectedShip].x[index];
-  //   const y = storedShips.player[selectedShip].y[index];
-  //   const square = document.querySelector(
-  //     `[data-x="${x}"][data-y="${y}"]`
-  //   );
-  //   square.classList.add("ship-placement");
-  // }
+  for (let index = 1; index < shipLengths[selectedShip]; index++) {
+    const x = storedShips.player[selectedShip].x[index];
+    const y = storedShips.player[selectedShip].y[index];
+    const square = document.querySelector(
+      `[data-x="${x}"][data-y="${y}"]`
+    );
+    square.classList.add("ship-placement");
+  }
 }
 
 // ---stage 3 do :
@@ -128,19 +128,21 @@ export function shipLastPlacement(
 // ---------repeat from stage 0 (unselected ship) without option to click any of placedShips coords
 
 function addRemainingShipCoordinates (storedShips, startX, startY, endX, endY) {
-  const deltaX = startX - endX;
-  const deltaY = startY - endY;
+  const deltaX = startX - endX; // 4 - 8 = -4
+  const deltaY = startY - endY; // 0
+
+  console.log(startX, startY, endX, endY)
 
   storedShips.player[selectedShip].x = [];
   storedShips.player[selectedShip].y = [];
 
-  if(deltaX === 0) {
+  if(deltaX === 0) { 
     for (let i = 0; i < shipLengths[selectedShip]; i++) {
       storedShips.player[selectedShip].x.push(startX);
     }
   } else if(deltaX < 0) {
-    for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].x.push(startX + i)
+    for (let i = 0; i < shipLengths[selectedShip]; i++) { // i = 0; i < 5; i++;
+      storedShips.player[selectedShip].x.push(startX + i) // 4 + 1 = 5
     }
   } else {
     for (let i = 0; i < shipLengths[selectedShip]; i++) {
