@@ -88,7 +88,7 @@ export function shipInitialPlacement(
     availableSquares.forEach((square) => {
       if (square) {
         square.classList.add("option");
-      } // adds flashing squares to all possible placement options
+      }
     });
   }
 }
@@ -104,7 +104,7 @@ export function shipLastPlacement(
   const endY = Number(clickedSquare.getAttribute("data-y"));
 
   playerAreaSquares.forEach((playerSquare) => {
-    playerSquare.classList.remove("option"); // removes all ship-placement and option squares
+    playerSquare.classList.remove("option");
   });
 
   addRemainingShipCoordinates(storedShips, startX, startY, endX, endY);
@@ -128,21 +128,26 @@ export function shipLastPlacement(
 // ---------repeat from stage 0 (unselected ship) without option to click any of placedShips coords
 
 function addRemainingShipCoordinates (storedShips, startX, startY, endX, endY) {
-  const deltaX = startX - endX; // 4 - 8 = -4
-  const deltaY = startY - endY; // 0
-
-  console.log(startX, startY, endX, endY)
+  const deltaX = startX - endX;
+  const deltaY = startY - endY;
 
   storedShips.player[selectedShip].x = [];
   storedShips.player[selectedShip].y = [];
+
+  for (let i = 0; i < shipLengths[selectedShip]; i++) {
+    let x = startX + (deltaX === 0 ? 0 : deltaX < 0 ? i : -i);
+    let y = startY + (deltaY === 0 ? 0 : deltaY < 0 ? i : -i);
+    storedShips.player[selectedShip].x.push(x);
+    storedShips.player[selectedShip].y.push(y);
+  }
 
   if(deltaX === 0) { 
     for (let i = 0; i < shipLengths[selectedShip]; i++) {
       storedShips.player[selectedShip].x.push(startX);
     }
   } else if(deltaX < 0) {
-    for (let i = 0; i < shipLengths[selectedShip]; i++) { // i = 0; i < 5; i++;
-      storedShips.player[selectedShip].x.push(startX + i) // 4 + 1 = 5
+    for (let i = 0; i < shipLengths[selectedShip]; i++) {
+      storedShips.player[selectedShip].x.push(startX + i)
     }
   } else {
     for (let i = 0; i < shipLengths[selectedShip]; i++) {
@@ -163,5 +168,4 @@ function addRemainingShipCoordinates (storedShips, startX, startY, endX, endY) {
       storedShips.player[selectedShip].y.push(startY + i)
     }
   }
- console.log(storedShips.player[selectedShip], storedShips.player);
 }
