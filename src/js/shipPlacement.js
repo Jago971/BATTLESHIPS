@@ -112,9 +112,7 @@ export function shipLastPlacement(
   for (let index = 1; index < shipLengths[selectedShip]; index++) {
     const x = storedShips.player[selectedShip].x[index];
     const y = storedShips.player[selectedShip].y[index];
-    const square = document.querySelector(
-      `[data-x="${x}"][data-y="${y}"]`
-    );
+    const square = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
     square.classList.add("ship-placement");
   }
 }
@@ -127,7 +125,7 @@ export function shipLastPlacement(
 // ---------save coords to list of placedShips -> overwrite existing coordinates if present,
 // ---------repeat from stage 0 (unselected ship) without option to click any of placedShips coords
 
-function addRemainingShipCoordinates (storedShips, startX, startY, endX, endY) {
+function addRemainingShipCoordinates(storedShips, startX, startY, endX, endY) {
   const deltaX = startX - endX;
   const deltaY = startY - endY;
 
@@ -141,31 +139,31 @@ function addRemainingShipCoordinates (storedShips, startX, startY, endX, endY) {
     storedShips.player[selectedShip].y.push(y);
   }
 
-  if(deltaX === 0) { 
+  if (deltaX === 0) {
     for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].x.push(startX);
+      storedShips.player[selectedShip].x.push(startX + 0);
     }
-  } else if(deltaX < 0) {
+  } else if (deltaX < 0) {
     for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].x.push(startX + i)
+      storedShips.player[selectedShip].x.push(startX + i);
     }
   } else {
     for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].x.push(startX - i)
+      storedShips.player[selectedShip].x.push(startX - i);
     }
   }
 
-  if(deltaY === 0) {
+  if (deltaY === 0) {
     for (let i = 0; i < shipLengths[selectedShip]; i++) {
       storedShips.player[selectedShip].y.push(startY);
     }
-  } else if(deltaY > 0) {
+  } else if (deltaY > 0) {
     for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].y.push(startY - i)
+      storedShips.player[selectedShip].y.push(startY - i);
     }
   } else {
     for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].y.push(startY + i)
+      storedShips.player[selectedShip].y.push(startY + i);
     }
   }
 }
