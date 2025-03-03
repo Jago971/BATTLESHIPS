@@ -120,10 +120,19 @@ export function shipLastPlacement(
 // ---stage 3 do :
 // ------event listener -> click grid option
 // ------functionality:
-// ---------remove all option,
-// ---------add .ship-placement to start square, option square, and all in between -> make start, middle, end all green,
-// ---------save coords to list of placedShips -> overwrite existing coordinates if present,
-// ---------repeat from stage 0 (unselected ship) without option to click any of placedShips coords
+// ---------remove all option, ✔️
+// ---------add .ship-placement to start square, option square, and all in between -> make start, middle, end all green, ✔️
+// ---------save coords to list of placedShips -> overwrite existing coordinates if present, ✔️
+// ---------repeat from stage 0 (unselected ship) without option to click any of placedShips coords 🚩
+
+// S3T5 - retain ship:
+// ---functionality:
+// ------new function to return all stored coords in storedShips
+// ------new function to remove .ship-placement from all except stored coords
+
+// S3T6 - no overlapping:
+// ---functionality:
+// ------new function to check if coords match any stored coords -> return boolean -> use in if statement to allow initial placement or option
 
 function addRemainingShipCoordinates(storedShips, startX, startY, endX, endY) {
   const deltaX = startX - endX;
@@ -137,33 +146,5 @@ function addRemainingShipCoordinates(storedShips, startX, startY, endX, endY) {
     let y = startY + (deltaY === 0 ? 0 : deltaY < 0 ? i : -i);
     storedShips.player[selectedShip].x.push(x);
     storedShips.player[selectedShip].y.push(y);
-  }
-
-  if (deltaX === 0) {
-    for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].x.push(startX + 0);
-    }
-  } else if (deltaX < 0) {
-    for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].x.push(startX + i);
-    }
-  } else {
-    for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].x.push(startX - i);
-    }
-  }
-
-  if (deltaY === 0) {
-    for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].y.push(startY);
-    }
-  } else if (deltaY > 0) {
-    for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].y.push(startY - i);
-    }
-  } else {
-    for (let i = 0; i < shipLengths[selectedShip]; i++) {
-      storedShips.player[selectedShip].y.push(startY + i);
-    }
   }
 }
