@@ -60,7 +60,7 @@ fleetShips.forEach((ship) => {
 playerAreaSquares.forEach((square) => {
 
   square.addEventListener("mouseover", () => {
-    shipInitialHover(playerAreaSquares, square);
+    shipInitialHover(playerAreaSquares, square, storedShips);
   });
 
   // ---stage 2 do:

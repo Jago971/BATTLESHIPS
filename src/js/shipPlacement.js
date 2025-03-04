@@ -9,16 +9,24 @@ const shipLengths = {
   scout: 2,
 };
 
-function removeSelectedShipPlacement(selectedShip, storedShips) {
-  if (storedShips.player[selectedShip].x.length) {
+function removeSelectedShipPlacement(selectedShip, storedShips, playerAreaSquares, selectedSquare) { //reanamed selected square
+  if (storedShips.player[selectedShip].x.length) { // only clears selected ship
     for (let index = 1; index < shipLengths[selectedShip]; index++) {
       const x = storedShips.player[selectedShip].x[index];
       const y = storedShips.player[selectedShip].y[index];
       const square = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
       square.classList.remove("ship-placement");
     }
+  } else { // clears everything except recorded ships
+      playerAreaSquares.forEach((square) => {
+        //if statement, condition, if the hovered square = coords continue
+        
+        square.classList.remove("ship-placement");
+      })
   }
 }
+
+// if x and y from square = x[index], y[index]
 
 export function selectShip(playerAreaSquares, allShips, clickedShip, storedShips) {
   const shipId = clickedShip.getAttribute("data-id");
@@ -28,7 +36,7 @@ export function selectShip(playerAreaSquares, allShips, clickedShip, storedShips
   playerAreaSquares.forEach((square) => {
     square.classList.remove("option"); // removes pre-existing placement and flashing option squares
   }); // REMOVe
-  removeSelectedShipPlacement(shipId, storedShips);
+  removeSelectedShipPlacement(shipId, storedShips, playerAreaSquares);
 
   // forEach the selected ship not player squares.
 
@@ -48,9 +56,11 @@ export function selectShip(playerAreaSquares, allShips, clickedShip, storedShips
   clickedShip.classList.add("selected"); // before adding one selection to chosen ship
 }
 
-export function shipInitialHover(playerAreaSquares, hoveredSquare) {
+
+export function shipInitialHover(playerAreaSquares, hoveredSquare, storedShips) {
   if (shipPlacementStage === 1) {
     // checks correct stage
+    removeSelectedShipPlacement(selectedShip, storedShips, playerAreaSquares);
     playerAreaSquares.forEach((square) => {
       square.classList.remove("ship-placement"); // remove all green squares
     });
