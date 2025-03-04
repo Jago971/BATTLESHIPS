@@ -61,7 +61,7 @@ export function shipInitialPlacement(
     playerAreaSquares.forEach((playerSquare) => {
       playerSquare.classList.remove("ship-placement", "option"); // removes all ship-placement and option squares
     });
-    clickedSquare.classList.add("ship-placement"); // adds new shi-placement square
+    clickedSquare.classList.add("ship-placement"); // adds new ship-placement square
 
     shipPlacementStage = 2; // increases to stage 2(fixed green square, no hovering)
 
@@ -96,7 +96,8 @@ export function shipInitialPlacement(
 export function shipLastPlacement(
   playerAreaSquares,
   clickedSquare,
-  storedShips
+  storedShips,
+  allShips
 ) {
   const startX = storedShips.player[selectedShip].x[0];
   const startY = storedShips.player[selectedShip].y[0];
@@ -115,6 +116,11 @@ export function shipLastPlacement(
     const square = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
     square.classList.add("ship-placement");
   }
+  allShips.forEach((ship) => {
+    ship.classList.remove("selected"); // remove all ship selections
+  });
+  selectedShip = "unselected";
+  shipPlacementStage = 0;
 }
 
 // ---stage 3 do :

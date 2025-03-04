@@ -66,7 +66,7 @@ playerAreaSquares.forEach((square) => {
   // ---stage 2 do:
   square.addEventListener("click", () => {
     if(square.classList.contains("option")) {
-      shipLastPlacement(playerAreaSquares, square, storedShips);
+      shipLastPlacement(playerAreaSquares, square, storedShips, ships);
     } else {
       shipInitialPlacement(playerAreaSquares, square, storedShips);
     }
