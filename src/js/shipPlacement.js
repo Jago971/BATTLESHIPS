@@ -9,7 +9,7 @@ const shipLengths = {
   scout: 2,
 };
 
-function removeSelectedShipPlacement(selectedShip, storedShips, playerAreaSquares, selectedSquare) { //reanamed selected square
+function removeSelectedShipPlacement(selectedShip, storedShips, playerAreaSquares) { //rename selectedSquare
   if (storedShips.player[selectedShip].x.length) { // only clears selected ship
     for (let index = 1; index < shipLengths[selectedShip]; index++) {
       const x = storedShips.player[selectedShip].x[index];
@@ -18,15 +18,30 @@ function removeSelectedShipPlacement(selectedShip, storedShips, playerAreaSquare
       square.classList.remove("ship-placement");
     }
   } else { // clears everything except recorded ships
-      playerAreaSquares.forEach((square) => {
-        //if statement, condition, if the hovered square = coords continue
-        
-        square.classList.remove("ship-placement");
+    playerAreaSquares.forEach((square) => {
+      //if statement, condition: if square = ship coords {continue}
+
+      storedShips.forEach((ship, index) => {
+        const x = Number(square.getAttribute("data-x")); // x and y for this square in the player Squares loop
+        const y = Number(square.getAttribute("data-y"));
+
+        if (storedShips.player[ship].x.length) { // if there are stored coords for this ship, it will have length and be truthy
+          //loop over x[i] and y[i] matching with square if truthy return/continue else remove.
+          if (x = storedShips.player[ship].x[index]) {
+            return;
+          } else {
+            square.classList.remove("ship-placement");
+          }
+        } else {
+          square.classList.remove("ship-placement");
+        }
       })
+    })
   }
 }
 
 // if x and y from square = x[index], y[index]
+// loop that iterates over all storedShip.player -> ship.x.length is truthy
 
 export function selectShip(playerAreaSquares, allShips, clickedShip, storedShips) {
   const shipId = clickedShip.getAttribute("data-id");
