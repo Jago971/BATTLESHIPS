@@ -52,11 +52,10 @@ export function shipInitialPlacement(
   const x = Number(clickedSquare.getAttribute("data-x"));
   const y = Number(clickedSquare.getAttribute("data-y"));
 
-  storedShips.player[selectedShip].x[0] = x;
-  storedShips.player[selectedShip].y[0] = y;
-
   if (shipPlacementStage >= 1) {
     // Needs to be 1 or more so that you can hover for first placement, then click square and stop hovering.
+    storedShips.player[selectedShip].x[0] = x;
+    storedShips.player[selectedShip].y[0] = y;
 
     playerAreaSquares.forEach((playerSquare) => {
       playerSquare.classList.remove("ship-placement", "option"); // removes all ship-placement and option squares
@@ -84,6 +83,10 @@ export function shipInitialPlacement(
       squareLeft,
       squareRight,
     ];
+
+    playerAreaSquares.forEach(square => {
+      void square.offsetWidth;
+    });
 
     availableSquares.forEach((square) => {
       if (square) {

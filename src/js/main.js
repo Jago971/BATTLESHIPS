@@ -13,7 +13,7 @@ createGrid();
 
 const playerAreaSquares = document.querySelectorAll(".player .player-area");
 const button = document.querySelector(".button .inner");
-const ships = document.querySelectorAll(".ship");
+const fleetShips = document.querySelectorAll(".fleet-ship");
 let sonar = false;
 
 const storedShips = {
@@ -47,10 +47,10 @@ button.addEventListener("click", () => {
   buttonPress(button);
 });
 
-ships.forEach((ship) => {
+fleetShips.forEach((ship) => {
   // now handing all ships and the index of the chosen ship so that function can wipe ".selected" class from all of them before applying to clicked ship
   ship.addEventListener("click", () => {
-    selectShip(playerAreaSquares, ships, ship);
+    selectShip(playerAreaSquares, fleetShips, ship);
   });
 });
 
@@ -66,7 +66,7 @@ playerAreaSquares.forEach((square) => {
   // ---stage 2 do:
   square.addEventListener("click", () => {
     if(square.classList.contains("option")) {
-      shipLastPlacement(playerAreaSquares, square, storedShips, ships);
+      shipLastPlacement(playerAreaSquares, square, storedShips, fleetShips);
     } else {
       shipInitialPlacement(playerAreaSquares, square, storedShips);
     }
