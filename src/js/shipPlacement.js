@@ -9,14 +9,28 @@ const shipLengths = {
   scout: 2,
 };
 
-export function selectShip(playerAreaSquares, allShips, clickedShip) {
+function removeSelectedShipPlacement(selectedShip, storedShips) {
+  if (storedShips.player[selectedShip].x.length) {
+    for (let index = 1; index < shipLengths[selectedShip]; index++) {
+      const x = storedShips.player[selectedShip].x[index];
+      const y = storedShips.player[selectedShip].y[index];
+      const square = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+      square.classList.remove("ship-placement");
+    }
+  }
+}
+
+export function selectShip(playerAreaSquares, allShips, clickedShip, storedShips) {
   const shipId = clickedShip.getAttribute("data-id");
 
   shipPlacementStage = 1; // click ship sets placement stage to 1(hovering green square)
 
   playerAreaSquares.forEach((square) => {
-    square.classList.remove("ship-placement", "option"); // removes pre-existing placement and flashing option squares
-  });
+    square.classList.remove("option"); // removes pre-existing placement and flashing option squares
+  }); // REMOVe
+  removeSelectedShipPlacement(shipId, storedShips);
+
+  // forEach the selected ship not player squares.
 
   if (selectedShip === shipId) {
     // if clicked ship is currently selected, unselect it, remove green square, revert to stage 0(no hover green square)
