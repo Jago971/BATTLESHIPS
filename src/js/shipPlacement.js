@@ -9,7 +9,7 @@ const shipLengths = {
   scout: 2,
 };
 
-function removeSelectedShipPlacement(
+function removeShipPlacement(
   selectedShip,
   storedShips,
   playerAreaSquares
@@ -80,7 +80,7 @@ export function selectShip(
   if(storedShips.player[shipId].x.length) { // THIS IS NEW - makes sure to remove all coords if the ships has any to begin with
     storedShips.player[shipId].x = [];
   }
-  removeSelectedShipPlacement(shipId, storedShips, playerAreaSquares);
+  removeShipPlacement(shipId, storedShips, playerAreaSquares);
 
   // forEach the selected ship not player squares.
 
@@ -107,7 +107,7 @@ export function shipInitialHover(
 ) {
   if (shipPlacementStage === 1) {
     // checks correct stage
-    removeSelectedShipPlacement(selectedShip, storedShips, playerAreaSquares); // CHANGED VVV
+    removeShipPlacement(selectedShip, storedShips, playerAreaSquares); // CHANGED VVV
     // playerAreaSquares.forEach((square) => {
     //   square.classList.remove("ship-placement"); // remove all green squares
     // });
@@ -126,7 +126,7 @@ export function shipInitialPlacement(
   if (shipPlacementStage >= 1) { // CHANGED VVV
     // Needs to be 1 or more so that you can hover for first placement, then click square and stop hovering.
 
-    removeSelectedShipPlacement(selectedShip, storedShips, playerAreaSquares);
+    removeShipPlacement(selectedShip, storedShips, playerAreaSquares);
     storedShips.player[selectedShip].x[0] = x;
     storedShips.player[selectedShip].y[0] = y;
     // playerAreaSquares.forEach((playerSquare) => {
