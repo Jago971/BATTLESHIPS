@@ -9,41 +9,67 @@ const shipLengths = {
   scout: 2,
 };
 
-function removeSelectedShipPlacement(selectedShip, storedShips, playerAreaSquares) { //rename selectedSquare
+function removeSelectedShipPlacement(
+  selectedShip,
+  storedShips,
+  playerAreaSquares
+) {
   if (storedShips.player[selectedShip].x.length) { // only clears selected ship
     for (let index = 1; index < shipLengths[selectedShip]; index++) {
       const x = storedShips.player[selectedShip].x[index];
       const y = storedShips.player[selectedShip].y[index];
       const square = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+      console.log(selectedShip, storedShips.player[selectedShip])
       square.classList.remove("ship-placement");
     }
   } else { // clears everything except recorded ships
     playerAreaSquares.forEach((square) => {
-      //if statement, condition: if square = ship coords {continue}
+      // iterate over every square
+      const x = Number(square.getAttribute("data-x")); // get current iteration square x and y
+      const y = Number(square.getAttribute("data-y")); // CHANGED VVV
 
-      storedShips.forEach((ship, index) => {
-        const x = Number(square.getAttribute("data-x")); // x and y for this square in the player Squares loop
-        const y = Number(square.getAttribute("data-y"));
+      let isShipSquare = false; // default square is not a ship square
 
-        if (storedShips.player[ship].x.length) { // if there are stored coords for this ship, it will have length and be truthy
-          //loop over x[i] and y[i] matching with square if truthy return/continue else remove.
-          if (x = storedShips.player[ship].x[index]) {
-            return;
-          } else {
-            square.classList.remove("ship-placement");
+      for (const ship in storedShips.player) {
+        // iterate over every ship in storedShips.player
+        if (storedShips.player[ship].x.length) {
+          // check if ship has any coordinates - if has length, is truthy
+          for (
+            let index = 0;
+            index < storedShips.player[ship].x.length;
+            index++
+          ) {
+            // iterate over every coordinate in ship
+            if (
+              x === storedShips.player[ship].x[index] &&
+              y === storedShips.player[ship].y[index]
+            ) {
+              // if current ship coord iteration x and y both match current square x and y
+              isShipSquare = true; // this square is a ship square
+              break; // break out of coord loop
+            }
           }
-        } else {
-          square.classList.remove("ship-placement");
         }
-      })
-    })
+        if (isShipSquare) break; // break out of ship loop
+      }
+
+      if (!isShipSquare) {
+        // if square is not a ship square - isShipSquare is still false
+        square.classList.remove("ship-placement"); // remove ship-placement class
+      }
+    });
   }
 }
 
 // if x and y from square = x[index], y[index]
 // loop that iterates over all storedShip.player -> ship.x.length is truthy
 
-export function selectShip(playerAreaSquares, allShips, clickedShip, storedShips) {
+export function selectShip(
+  playerAreaSquares,
+  allShips,
+  clickedShip,
+  storedShips
+) {
   const shipId = clickedShip.getAttribute("data-id");
 
   shipPlacementStage = 1; // click ship sets placement stage to 1(hovering green square)
@@ -51,6 +77,9 @@ export function selectShip(playerAreaSquares, allShips, clickedShip, storedShips
   playerAreaSquares.forEach((square) => {
     square.classList.remove("option"); // removes pre-existing placement and flashing option squares
   }); // REMOVe
+  if(storedShips.player[shipId].x.length) { // THIS IS NEW - makes sure to remove all coords if the ships has any to begin with
+    storedShips.player[shipId].x = [];
+  }
   removeSelectedShipPlacement(shipId, storedShips, playerAreaSquares);
 
   // forEach the selected ship not player squares.
@@ -71,14 +100,17 @@ export function selectShip(playerAreaSquares, allShips, clickedShip, storedShips
   clickedShip.classList.add("selected"); // before adding one selection to chosen ship
 }
 
-
-export function shipInitialHover(playerAreaSquares, hoveredSquare, storedShips) {
+export function shipInitialHover(
+  playerAreaSquares,
+  hoveredSquare,
+  storedShips
+) {
   if (shipPlacementStage === 1) {
     // checks correct stage
-    removeSelectedShipPlacement(selectedShip, storedShips, playerAreaSquares);
-    playerAreaSquares.forEach((square) => {
-      square.classList.remove("ship-placement"); // remove all green squares
-    });
+    removeSelectedShipPlacement(selectedShip, storedShips, playerAreaSquares); // CHANGED VVV
+    // playerAreaSquares.forEach((square) => {
+    //   square.classList.remove("ship-placement"); // remove all green squares
+    // });
     hoveredSquare.classList.add("ship-placement"); // apply green to hovered square
   }
 }
@@ -91,14 +123,15 @@ export function shipInitialPlacement(
   const x = Number(clickedSquare.getAttribute("data-x"));
   const y = Number(clickedSquare.getAttribute("data-y"));
 
-  if (shipPlacementStage >= 1) {
+  if (shipPlacementStage >= 1) { // CHANGED VVV
     // Needs to be 1 or more so that you can hover for first placement, then click square and stop hovering.
+
+    removeSelectedShipPlacement(selectedShip, storedShips, playerAreaSquares);
     storedShips.player[selectedShip].x[0] = x;
     storedShips.player[selectedShip].y[0] = y;
-
-    playerAreaSquares.forEach((playerSquare) => {
-      playerSquare.classList.remove("ship-placement", "option"); // removes all ship-placement and option squares
-    });
+    // playerAreaSquares.forEach((playerSquare) => {
+    //   playerSquare.classList.remove("ship-placement", "option"); // removes all ship-placement and option squares
+    // });
     clickedSquare.classList.add("ship-placement"); // adds new ship-placement square
 
     shipPlacementStage = 2; // increases to stage 2(fixed green square, no hovering)
@@ -123,7 +156,7 @@ export function shipInitialPlacement(
       squareRight,
     ];
 
-    playerAreaSquares.forEach(square => {
+    playerAreaSquares.forEach((square) => {
       void square.offsetWidth;
     });
 
