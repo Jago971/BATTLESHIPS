@@ -255,20 +255,44 @@ function checkCoordsInStoredShips(x, y, storedShips) {
   return match;
 }
 
-function getOptions(selectedShip, storedShips) {
-  let optionsCoords = 
+function getOptionsCoords(selectedShip, storedShips) {
+  let optionsCoords =
   {
-    left: {x: [], y: []},
-    right: {x: [], y: []},
-    top: {x: [], y: []},
-    bottom: {x: [], y: []}
+    left: { x: [], y: [] }, // SL x X-- , SL x Y
+    right: { x: [], y: [] }, // SL x X++ , SL x Y
+    top: { x: [], y: [] }, // SL x X, SL x Y--
+    bottom: { x: [], y: [] } // SL x X , SL x Y++
   }
-  
+
   const startX = storedShips.player[selectedShip].x[0];
   const startY = storedShips.player[selectedShip].y[0];
   const length = shipLengths[selectedShip] - 1;
 
-  
+  for (direction in optionsCoords) {
+    
+    for (let i = 0; i < length; i++) {
+      let valueX;
+      let valueY;
+
+      if (direction === "left") {
+        valueX = startX - (i+1);
+        valueY = startY;
+      } else if (direction === "right") {
+        valueX = startX + (i+1);
+        valueY = startY;
+      } else if  (direction === "top") {
+        valueY = startX;
+        valueX = startY - (i+1);
+      } else if (direction === "bottom") {
+        valueY = startX;
+        valueX = startY + (i+1);
+      }
+      
+      optionsCoords[direction].x.push(valueX);
+      optionsCoords[direction].y.push(valueY);
+    }
+    return optionsCoords;
+  }
 }
 
 //  helper function params - length - 4 generic loop length-1 - iterate over x,y coords, increment or decrement x or y(for given direction) - 
