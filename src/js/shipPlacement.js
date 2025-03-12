@@ -253,3 +253,15 @@ function checkCoordsInStoredShips(x, y, storedShips) {
 
   return match;
 }
+
+
+//  Check initial square
+// 	  Check end square, as long >1 is true
+// 		  Check squares in-between for each
+
+//  helper function params - length - 4 generic loop length-1 - iterate over x,y coords, increment or decrement x or y(for given direction) - 
+//    return array of keyed arrays of coords for given direction and axis
+
+//  parms - storedships(which contains x[0] and y[0]), selectedship(has ship length)
+//    first check if start x/y + ship length over or under 10 or 0 - if true break
+//    if first check passed - run check coords function - false continue, true break.
