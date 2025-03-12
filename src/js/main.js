@@ -9,11 +9,6 @@ import {
   shipLastPlacement
 } from "./shipPlacement.js";
 
-// createGrid();
-
-// const playerAreaSquares = document.querySelectorAll(".player .player-area");
-// const button = document.querySelector(".button .inner");
-// const fleetShips = document.querySelectorAll(".fleet-ship");
 let sonar = false;
 const storedShips = {
   player: {
@@ -31,46 +26,6 @@ const storedShips = {
     scout: { x: [], y: [] },
   }
 };
-// COMMENTED OUT BECAUSE IT'S ANNOYING AFTER 8 HOURS.
-// window.onclick = function () {
-//   if (!sonar) {
-//     const sonarEcho = new Audio("/assets/sounds/sonar-echo.mp3");
-//     sonarEcho.volume = 0.5;
-//     sonarEcho.loop = true;
-//     sonarEcho.play();
-//     sonar = true;
-//   }
-// };
-
-// button.addEventListener("click", () => {
-//   buttonPress(button);
-// });
-
-// fleetShips.forEach((ship) => {
-//   // now handing all ships and the index of the chosen ship so that function can wipe ".selected" class from all of them before applying to clicked ship
-//   ship.addEventListener("click", () => {
-//     selectShip(playerAreaSquares, fleetShips, ship, storedShips);
-//   });
-// });
-
-// // ship placement:
-// // ---stage 1 do:
-
-// playerAreaSquares.forEach((square) => {
-
-//   square.addEventListener("mouseover", () => {
-//     shipInitialHover(playerAreaSquares, square, storedShips);
-//   });
-
-//   // ---stage 2 do:
-//   square.addEventListener("click", () => {
-//     if(square.classList.contains("option")) {
-//       shipLastPlacement(playerAreaSquares, square, storedShips, fleetShips);
-//     } else {
-//       shipInitialPlacement(playerAreaSquares, square, storedShips);
-//     }
-//   });
-// });
 
 // ---stage 3 do :
 // ------event listener -> click grid option
