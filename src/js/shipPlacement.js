@@ -125,10 +125,17 @@ export function shipInitialPlacement(
     // If placing first square, need to be able to click it
     // If initial square already placed but want to change location - still needs click functionality
 
+    
     removeShipPlacement(selectedShip, storedShips, playerAreaSquares);
+    
+    if (checkCoordsInStoredShips(x, y, storedShips)) {
+      alert("This co-ordinate is occupied");
+      return
+    }
+
     storedShips.player[selectedShip].x[0] = x;
     storedShips.player[selectedShip].y[0] = y;
-  
+    
     clickedSquare.classList.add("ship-placement");
 
     shipPlacementStage = 2;
@@ -198,10 +205,6 @@ export function shipLastPlacement(
   shipPlacementStage = 0;
 }
 
-// S3T6 - no overlapping:
-// ---functionality:
-// ------new function to check if coords match any stored coords -> return boolean -> use in if statement to allow initial placement or option
-
 function addRemainingShipCoordinates(storedShips, startX, startY, endX, endY) {
   const deltaX = startX - endX;
   const deltaY = startY - endY;
@@ -215,4 +218,38 @@ function addRemainingShipCoordinates(storedShips, startX, startY, endX, endY) {
     storedShips.player[selectedShip].x.push(x);
     storedShips.player[selectedShip].y.push(y);
   }
+}
+
+// S3T6 - no overlapping:
+// ---functionality:
+// ------new function to check if coords match any stored coords -> return boolean -> use in if statement to allow initial placement or option
+
+function checkCoordsInStoredShips(x, y, storedShips) {
+
+  let match = false;
+
+  for (const ship in storedShips.player) {              
+    // ship loop
+    if (storedShips.player[ship].x.length) {
+      for (
+        let index = 0;
+        index < storedShips.player[ship].x.length;
+        index++
+      ) { 
+        // coord loop
+        if (
+          x === storedShips.player[ship].x[index] &&
+          y === storedShips.player[ship].y[index]
+        ) {
+          match = true;
+          break;
+          // break out of coord loop
+        }
+      }
+    }
+    if (match) break;
+    // break out of ship loop
+  }
+
+  return match;
 }
