@@ -255,7 +255,7 @@ function checkCoordsInStoredShips(x, y, storedShips) {
   return match;
 }
 
-function getOptionsCoords(selectedShip, storedShips) {
+function getAllOptionsCoords(selectedShip, storedShips, length) {
   let optionsCoords =
   {
     left: { x: [], y: [] }, // SL x X-- , SL x Y
@@ -266,34 +266,39 @@ function getOptionsCoords(selectedShip, storedShips) {
 
   const startX = storedShips.player[selectedShip].x[0];
   const startY = storedShips.player[selectedShip].y[0];
-  const length = shipLengths[selectedShip] - 1;
 
   for (direction in optionsCoords) {
     
-    for (let i = 0; i < length; i++) {
-      let valueX;
-      let valueY;
+    for (let i = 0; i < length - 1; i++) {
+      const valueX = startX + (direction === "left" ? - 1 : direction === "right" ? 1 : 0);
+      const valueY = startY + (direction === "top" ? 1 : direction === "bottom" ? - 1 : 0);
 
-      if (direction === "left") {
-        valueX = startX - (i+1);
-        valueY = startY;
-      } else if (direction === "right") {
-        valueX = startX + (i+1);
-        valueY = startY;
-      } else if  (direction === "top") {
-        valueY = startX;
-        valueX = startY - (i+1);
-      } else if (direction === "bottom") {
-        valueY = startX;
-        valueX = startY + (i+1);
-      }
-      
       optionsCoords[direction].x.push(valueX);
       optionsCoords[direction].y.push(valueY);
+
     }
     return optionsCoords;
   }
 }
+
+function getValidOptionsCoords(selectedShip, storedShips) {
+  const length = shipLengths[selectedShip];
+  const options = getOptionsCoords(selectedShip, storedShips, length)
+  for (direction in options) {
+    for (let i = 0; i < length; i++) {
+      const x = storedShips.player[selectedShip].x[i];
+      const y = storedShips.player[selectedShip].y[i];
+
+
+    }
+  }
+}
+
+// options:
+// function that returns true or false when given an option square - use it to allow or disallow visual representation.
+// simple function that can be reused for each option square. one job.
+// function that returns a full array of all true/existing options and then displays all of those options.
+// could be messy with lots going on inside - will make use of checking its true redundant
 
 //  helper function params - length - 4 generic loop length-1 - iterate over x,y coords, increment or decrement x or y(for given direction) - 
 //    return array of keyed arrays of coords for given direction and axis
