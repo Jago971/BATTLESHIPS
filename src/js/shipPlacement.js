@@ -33,16 +33,16 @@ function removeShipPlacement(
       const x = Number(square.getAttribute("data-x"));
       const y = Number(square.getAttribute("data-y"));
 
-      let isShipSquare = false; 
+      let isShipSquare = false;
 
-      for (const ship in storedShips.player) {              
+      for (const ship in storedShips.player) {
         // ship loop
         if (storedShips.player[ship].x.length) {
           for (
             let index = 0;
             index < storedShips.player[ship].x.length;
             index++
-          ) { 
+          ) {
             // coord loop
             if (
               x === storedShips.player[ship].x[index] &&
@@ -59,7 +59,8 @@ function removeShipPlacement(
       }
 
       if (!isShipSquare) {
-        square.classList.remove("ship-placement");       }
+        square.classList.remove("ship-placement");
+      }
     });
   }
 }
@@ -77,8 +78,8 @@ export function selectShip(
   playerAreaSquares.forEach((square) => {
     square.classList.remove("option");
   });
-  
-  if(storedShips.player[shipId].x.length) {
+
+  if (storedShips.player[shipId].x.length) {
     storedShips.player[shipId].x = [];
   }
   // Removes all pre-existing coords
@@ -107,7 +108,7 @@ export function shipInitialHover(
 ) {
   if (shipPlacementStage === 1) {
     removeShipPlacement(selectedShip, storedShips, playerAreaSquares);
-    
+
     hoveredSquare.classList.add("ship-placement");
   }
 }
@@ -125,9 +126,9 @@ export function shipInitialPlacement(
     // If placing first square, need to be able to click it
     // If initial square already placed but want to change location - still needs click functionality
 
-    
+
     removeShipPlacement(selectedShip, storedShips, playerAreaSquares);
-    
+
     if (checkCoordsInStoredShips(x, y, storedShips)) {
       alert("This co-ordinate is occupied");
       return
@@ -135,13 +136,13 @@ export function shipInitialPlacement(
 
     storedShips.player[selectedShip].x[0] = x;
     storedShips.player[selectedShip].y[0] = y;
-    
+
     clickedSquare.classList.add("ship-placement");
 
     shipPlacementStage = 2;
 
     const length = shipLengths[selectedShip] - 1;
-    
+
     const squareAbove = document.querySelector(
       `[data-x="${x}"][data-y="${y - length}"]`
     );
@@ -228,14 +229,14 @@ function checkCoordsInStoredShips(x, y, storedShips) {
 
   let match = false;
 
-  for (const ship in storedShips.player) {              
+  for (const ship in storedShips.player) {
     // ship loop
     if (storedShips.player[ship].x.length) {
       for (
         let index = 0;
         index < storedShips.player[ship].x.length;
         index++
-      ) { 
+      ) {
         // coord loop
         if (
           x === storedShips.player[ship].x[index] &&
@@ -254,10 +255,16 @@ function checkCoordsInStoredShips(x, y, storedShips) {
   return match;
 }
 
+function getOptions(length, selectedShip, storedShips) {
+  let optionsCoords = 
+  {
+    left: {x: [], y: []},
+    right: {x: [], y: []},
+    top: {x: [], y: []},
+    bottom: {x: [], y: []}
+  }
 
-//  Check initial square
-// 	  Check end square, as long >1 is true
-// 		  Check squares in-between for each
+}
 
 //  helper function params - length - 4 generic loop length-1 - iterate over x,y coords, increment or decrement x or y(for given direction) - 
 //    return array of keyed arrays of coords for given direction and axis
