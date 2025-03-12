@@ -20,13 +20,11 @@ function removeShipPlacement(
   storedShips,
   playerAreaSquares
 ) {
-  console.log(storedShips.player[selectedShip].x.length);
   if (storedShips.player[selectedShip].x.length) { // only clears selected ship
     for (let index = 1; index < shipLengths[selectedShip]; index++) {
       const x = storedShips.player[selectedShip].x[index];
       const y = storedShips.player[selectedShip].y[index];
       const square = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
-      console.log(selectedShip, storedShips.player[selectedShip])
       square.classList.remove("ship-placement");
     }
   } else { // clears everything except recorded ships
@@ -127,6 +125,7 @@ export function shipInitialPlacement(
     // If placing first square, need to be able to click it
     // If initial square already placed but want to change location - still needs click functionality
 
+    // If not a valid option square, needs to allow user to pick new initial square - has lost this functionality
 
     removeShipPlacement(selectedShip, storedShips, playerAreaSquares);
 
@@ -134,69 +133,24 @@ export function shipInitialPlacement(
       alert("This co-ordinate is occupied");
       return
     }
-    console.log("passed removal placement and occupied coord check")
 
     storedShips.player[selectedShip].x[0] = x;
     storedShips.player[selectedShip].y[0] = y;
-    console.log("x and y start coords passed to stored ship", x, y)
 
     clickedSquare.classList.add("ship-placement");
-    console.log("added ship placement to clicked square")
 
     shipPlacementStage = 2;
-    console.log("placement stage", shipPlacementStage)
 
     const validOptionsCoords = getValidOptionsCoords(selectedShip, storedShips)
-    console.log("valid option coords", validOptionsCoords)
 
-  for (option in validOptionsCoords) {
-    const optionSquare = document.querySelector(
-      `[data-x="${option.x[shipLengths[selectedShip] - 1 ]}"][data-y="${option.y[shipLengths[selectedShip] - 1 ]}"]`
-    );
-    console.log("if this is the last log you see it broke here")
-    optionSquare.classList.add("option");
-    console.log(optionSquare.classList);
+    for (const option in validOptionsCoords) {
+      const length = validOptionsCoords[option].x.length - 1;
+      const optionSquare = document.querySelector(
+        `[data-x="${validOptionsCoords[option].x[length]}"][data-y="${validOptionsCoords[option].y[length]}"]`
+      );
+      optionSquare.classList.add("option");
+    }
   }
-
-    // const length = shipLengths[selectedShip] - 1;
-
-    // const squareAbove = document.querySelector(
-    //   `[data-x="${x}"][data-y="${y - length}"]`
-    // );
-    // const squareBelow = document.querySelector(
-    //   `[data-x="${x}"][data-y="${y + length}"]`
-    // );
-    // const squareLeft = document.querySelector(
-    //   `[data-x="${x - length}"][data-y="${y}"]`
-    // );
-    // const squareRight = document.querySelector(
-    //   `[data-x="${x + length}"][data-y="${y}"]`
-    // );
-
-    // const availableSquares = [
-    //   squareAbove,
-    //   squareBelow,
-    //   squareLeft,
-    //   squareRight,
-    // ];
-    // // The following forEach overrides DOM batch functions to sync blinking.
-    // playerAreaSquares.forEach((square) => {
-    //   void square.offsetWidth;
-    // });
-    // // We thought JS was almighty. No longer do we worship it. - MM
-
-    // availableSquares.forEach((square) => {
-    //   if (square) {
-    //     square.classList.add("option");
-    //   }
-    // });
-  }
-
-  // get list of valid options
-  // iterate over the valid options taking the last x and y from each
-  // put x and y into queryselector template
-  // apply option class to those elements
-
 }
 
 export function shipLastPlacement(
@@ -292,7 +246,7 @@ function getAllOptionsCoords(selectedShip, storedShips, length) {
 
   for (let direction in optionsCoords) {
 
-    for (let i = 0; i < length; i++) {
+    for (let i = 1; i < length; i++) {
       const valueX = startX + (direction === "left" ? -i : direction === "right" ? i : 0);
       const valueY = startY + (direction === "top" ? -i : direction === "bottom" ? i : 0);
       optionsCoords[direction].x.push(valueX);
@@ -306,27 +260,21 @@ function getValidOptionsCoords(selectedShip, storedShips) {
   console.log("-----getValidOptionsCoords-------")
   const length = shipLengths[selectedShip];
   const options = getAllOptionsCoords(selectedShip, storedShips, length);
-  console.log("options", options, "length", length)
 
   for (let direction in options) {
 
     let isValid = true;
 
-    for (let i = 0; i < length; i++) {
-      console.log(direction)
+    for (let i = 0; i < length - 1; i++) {
       const x = options[direction].x[i];
       const y = options[direction].y[i];
-      console.log("x:", x);
-      console.log("y:", y);
       if (!(0 < x && x < 11) || !(0 < y && y < 11)) {
         isValid = false;
-        console.log("isValid in cords range:", isValid);
         break;
       }
 
-      if(checkCoordsInStoredShips(x, y, storedShips)) {
+      if (checkCoordsInStoredShips(x, y, storedShips)) {
         isValid = false;
-        console.log("isValid match in storedShips:", isValid);
         break;
       }
 
@@ -334,7 +282,6 @@ function getValidOptionsCoords(selectedShip, storedShips) {
 
     if (!isValid) {
       delete options[direction];
-      console.log("options direction deleted");
     }
   }
   return options;
