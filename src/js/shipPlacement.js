@@ -268,7 +268,7 @@ function getAllOptionsCoords(selectedShip, storedShips, length) {
   const startY = storedShips.player[selectedShip].y[0];
 
   for (direction in optionsCoords) {
-    
+
     for (let i = 0; i < length - 1; i++) {
       const valueX = startX + (direction === "left" ? - 1 : direction === "right" ? 1 : 0);
       const valueY = startY + (direction === "top" ? 1 : direction === "bottom" ? - 1 : 0);
@@ -283,15 +283,33 @@ function getAllOptionsCoords(selectedShip, storedShips, length) {
 
 function getValidOptionsCoords(selectedShip, storedShips) {
   const length = shipLengths[selectedShip];
-  const options = getOptionsCoords(selectedShip, storedShips, length)
+  const options = getOptionsCoords(selectedShip, storedShips, length);
+
   for (direction in options) {
+
+    let isValid = true;
+
     for (let i = 0; i < length; i++) {
       const x = storedShips.player[selectedShip].x[i];
       const y = storedShips.player[selectedShip].y[i];
 
+      if (!(0 < x && x < 11) || !(0 < y && y < 11)) {
+        isValid = false;
+        break;
+      }
+
+      if(checkCoordsInStoredShips(x, y, storedShips)) {
+        isValid = false;
+        break;
+      }
 
     }
+
+    if (!isValid) {
+      delete options[direction];
+    }
   }
+  return options;
 }
 
 // options:
