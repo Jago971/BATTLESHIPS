@@ -35,6 +35,17 @@ function removeSelectedShipCoords(storedShips) {
   storedShips.player[selectedShip].y = [];
 }
 
+function removeSelectedShip(clickedShip) {
+  selectedShip = "unselected";
+  clickedShip.classList.remove("selected");
+}
+
+function addSelectedShip(clickedShip) {
+  const shipId = clickedShip.getAttribute("data-id");
+  selectedShip = shipId;
+  clickedShip.classList.add("selected");
+}
+
 function toggleHover(playerAreaSquares, toggle) {
   playerAreaSquares.forEach(square => {
     if (toggle) {
