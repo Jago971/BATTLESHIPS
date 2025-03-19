@@ -6,10 +6,12 @@ import {
   selectShip,
   shipInitialPlacement,
   shipInitialHover,
-  shipLastPlacement
+  shipLastPlacement,
+  toggleHover
 } from "./shipPlacement.js";
 
 let sonar = false;
+
 const storedShips = {
   player: {
     carrier: { x: [], y: [] },
@@ -38,6 +40,8 @@ const storedShips = {
 function initialiseGrid() {
   createGrid();
   const playerAreaSquares = document.querySelectorAll(".player .player-area");
+  
+  toggleHover(playerAreaSquares);
   return playerAreaSquares;
 }
 
@@ -47,7 +51,7 @@ function initialiseSonar() {
       const sonarEcho = new Audio("/assets/sounds/sonar-echo.mp3");
       sonarEcho.volume = 0.5;
       sonarEcho.loop = true;
-      sonarEcho.play();
+     // sonarEcho.play();
       sonar = true;
     }
   };
@@ -59,16 +63,18 @@ function initialiseEventListeners(playerAreaSquares) {
 
   button.addEventListener("click", () => {
     buttonPress(button);
+    toggleHover(playerAreaSquares);
   });
 
   fleetShips.forEach((ship) => {
     ship.addEventListener("click", () => {
-      selectShip(playerAreaSquares, fleetShips, ship, storedShips);
+      selectShip(playerAreaSquares, fleetShips, ship, storedShips); // might change
+      // click ship action
     });
   });
 
   playerAreaSquares.forEach((square) => {
-    square.addEventListener("mouseover", () => {
+    square.addEventListener("mouseover", () => { // might get rid of - css approach(?)
       shipInitialHover(playerAreaSquares, square, storedShips);
     });
 
