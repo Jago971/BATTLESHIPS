@@ -52,17 +52,15 @@ function getCoordinates(square) {
   // nuts
 }
 
-function addShipPlacement(clickedSquare) {
-  const coordinates = getCoordinates(clickedSquare)
-  const square = document.querySelector(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`);
-  square.classList.add("ship-placement");
-}
-
 function stageInitialCoords(clickedSquare) {
   const coordinates = getCoordinates(clickedSquare)
   stagedCoords = coordinates;
 }
 
+function addShipPlacement(x, y) {
+  const square = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+  square.classList.add("ship-placement");
+}
 
 function checkCoordsInStoredShips(x, y, storedShips) {
 
@@ -161,10 +159,37 @@ function addOptionSquares(selectedShip, storedShips) {
   }
 }
 
-function removeOptionSquares (playerAreaSquares) {
+function removeOptionSquares(playerAreaSquares) {
   playerAreaSquares.forEach(square => {
     square.classList.remove("option")
   });
+}
+
+function addShipCoordsToStoredShips(clickedOption) {
+  const startX = stagedCoords.x;
+  const startY = stagedCoords.y;
+
+  const endCoordinates = getCoordinates(clickedOption)
+  const endX = endCoordinates.x
+  const endY = endCoordinates.y
+
+  const deltaX = startX - endX;
+  const deltaY = startY - endY;
+
+  for (let i = 0; i < shipLengths[selectedShip]; i++) {
+    let x = startX + (deltaX === 0 ? 0 : deltaX < 0 ? i : -i);
+    let y = startY + (deltaY === 0 ? 0 : deltaY < 0 ? i : -i);
+    storedShips.player[selectedShip].x.push(x);
+    storedShips.player[selectedShip].y.push(y);
+  }
+}
+
+function addShipPlacementAll() {
+  for (const ship in storedShips.player) {
+    for (let i = 0; i < shipLengths[ship]; i++) {
+      addShipPlacement(storedShips.player[ship].x[index], storedShips.player[ship].y[i])
+    }
+  }
 }
 
 // #endregion
