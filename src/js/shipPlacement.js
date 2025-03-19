@@ -161,6 +161,12 @@ function addOptionSquares(selectedShip, storedShips) {
   }
 }
 
+function removeOptionSquares (playerAreaSquares) {
+  playerAreaSquares.forEach(square => {
+    square.classList.remove("option")
+  });
+}
+
 // #endregion
 
 
