@@ -1,11 +1,6 @@
 let selectedShip = "unselected";
-let shipPlacementStage = 0;
-
-/*  Ship Placement Stages:
-*   0 = no selected ship, no hover square
-*   1 = selected ship, green hover square
-*   2 = selected ship, initial square, flashing option squares, no hovering
-*/
+let placementStage = 0;
+let stagedCoords;
 
 const shipLengths = {
   carrier: 5,
@@ -14,6 +9,190 @@ const shipLengths = {
   submarine: 3,
   scout: 2,
 };
+
+/*  Ship Placement Stages:
+*   0 = no selected ship, no hover square
+*   1 = selected ship, green hover square
+*   2 = selected ship, initial square, flashing option squares, no hovering
+*/
+
+
+// #region UTILS
+
+function removeShipPlacementAll() {
+  const loopLength = shipLengths[selectedShip];
+
+  for (let index = 0; index < loopLength; index++) {
+    const x = storedShips.player[selectedShip].x[index];
+    const y = storedShips.player[selectedShip].y[index];
+    const square = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+    square.classList.remove("ship-placement");
+  }
+}
+
+function removeSelectedShipCoords(storedShips) {
+  storedShips.player[selectedShip].x = [];
+  storedShips.player[selectedShip].y = [];
+}
+
+function toggleHover(playerAreaSquares, toggle) {
+  playerAreaSquares.forEach(square => {
+    if (toggle) {
+      square.classList.add("hover")
+    } else {
+      square.classList.remove("hover")
+    }
+  });
+}
+
+function getCoordinates(square) {
+  const x = Number(clickedSquare.getAttribute("data-x"));
+  const y = Number(clickedSquare.getAttribute("data-y"));
+  return { x: x, y: y }
+  // nuts
+}
+
+function addShipPlacement(clickedSquare) {
+  const coordinates = getCoordinates(clickedSquare)
+  const square = document.querySelector(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`);
+  square.classList.add("ship-placement");
+}
+
+function stageInitialCoords(clickedSquare) {
+  const coordinates = getCoordinates(clickedSquare)
+  stagedCoords = coordinates;
+}
+
+
+function checkCoordsInStoredShips(x, y, storedShips) {
+
+  let match = false;
+
+  for (const ship in storedShips.player) {
+    // ship loop
+    if (storedShips.player[ship].x.length) {
+      for (
+        let index = 0;
+        index < storedShips.player[ship].x.length;
+        index++
+      ) {
+        // coord loop
+        if (
+          x === storedShips.player[ship].x[index] &&
+          y === storedShips.player[ship].y[index]
+        ) {
+          match = true;
+          break;
+          // break out of coord loop
+        }
+      }
+    }
+    if (match) break;
+    // break out of ship loop
+  }
+
+  return match;
+}
+
+function getAllOptionsCoords(selectedShip, storedShips, length) {
+  let optionsCoords =
+  {
+    left: { x: [], y: [] }, // SL x X-- , SL x Y
+    right: { x: [], y: [] }, // SL x X++ , SL x Y
+    top: { x: [], y: [] }, // SL x X, SL x Y--
+    bottom: { x: [], y: [] } // SL x X , SL x Y++
+  }
+
+  const startX = storedShips.player[selectedShip].x[0];
+  const startY = storedShips.player[selectedShip].y[0];
+
+  for (let direction in optionsCoords) {
+
+    for (let i = 1; i < length; i++) {
+      const valueX = startX + (direction === "left" ? -i : direction === "right" ? i : 0);
+      const valueY = startY + (direction === "top" ? -i : direction === "bottom" ? i : 0);
+      optionsCoords[direction].x.push(valueX);
+      optionsCoords[direction].y.push(valueY);
+    }
+  }
+  return optionsCoords;
+}
+
+function getValidOptionsCoords(selectedShip, storedShips) {
+  const length = shipLengths[selectedShip];
+  const options = getAllOptionsCoords(selectedShip, storedShips, length);
+
+  for (let direction in options) {
+
+    let isValid = true;
+
+    for (let i = 0; i < length - 1; i++) {
+      const x = options[direction].x[i];
+      const y = options[direction].y[i];
+      // check if out of bounds
+      if (!(0 < x && x < 11) || !(0 < y && y < 11)) {
+        isValid = false;
+        break;
+      }
+      // check if already occupied
+      if (checkCoordsInStoredShips(x, y, storedShips)) {
+        isValid = false;
+        break;
+      }
+
+    }
+
+    if (!isValid) {
+      delete options[direction];
+    }
+  }
+  return options;
+}
+
+function addOptionSquares(selectedShip, storedShips) {
+  const validOptionsCoords = getValidOptionsCoords(selectedShip, storedShips)
+
+  for (const option in validOptionsCoords) {
+    const length = validOptionsCoords[option].x.length - 1;
+    const optionSquare = document.querySelector(
+      `[data-x="${validOptionsCoords[option].x[length]}"][data-y="${validOptionsCoords[option].y[length]}"]`
+    );
+    optionSquare.classList.add("option");
+  }
+}
+
+// #endregion
+
+
+function stage0() {
+  // if (/* selected ship has stored coords */) {
+  //   /* remove css for selected ship */
+  //   /* remove ships stored coords */
+  // }
+  selectedShip = clickedShip;
+  placementStage = 1
+}
+
+function stage1() {
+
+  placementStage = 2
+}
+
+function stage2() {
+
+  placementStage = 0
+}
+
+
+
+
+
+
+
+
+
+
+
 
 function removeShipPlacement(
   selectedShip,
@@ -205,90 +384,6 @@ function addRemainingShipCoordinates(storedShips, startX, startY, endX, endY) {
 // ---functionality:
 // ------new function to check if coords match any stored coords -> return boolean -> use in if statement to allow initial placement or option
 
-function checkCoordsInStoredShips(x, y, storedShips) {
-
-  let match = false;
-
-  for (const ship in storedShips.player) {
-    // ship loop
-    if (storedShips.player[ship].x.length) {
-      for (
-        let index = 0;
-        index < storedShips.player[ship].x.length;
-        index++
-      ) {
-        // coord loop
-        if (
-          x === storedShips.player[ship].x[index] &&
-          y === storedShips.player[ship].y[index]
-        ) {
-          match = true;
-          break;
-          // break out of coord loop
-        }
-      }
-    }
-    if (match) break;
-    // break out of ship loop
-  }
-
-  return match;
-}
-
-function getAllOptionsCoords(selectedShip, storedShips, length) {
-  let optionsCoords =
-  {
-    left: { x: [], y: [] }, // SL x X-- , SL x Y
-    right: { x: [], y: [] }, // SL x X++ , SL x Y
-    top: { x: [], y: [] }, // SL x X, SL x Y--
-    bottom: { x: [], y: [] } // SL x X , SL x Y++
-  }
-
-  const startX = storedShips.player[selectedShip].x[0];
-  const startY = storedShips.player[selectedShip].y[0];
-
-  for (let direction in optionsCoords) {
-
-    for (let i = 1; i < length; i++) {
-      const valueX = startX + (direction === "left" ? -i : direction === "right" ? i : 0);
-      const valueY = startY + (direction === "top" ? -i : direction === "bottom" ? i : 0);
-      optionsCoords[direction].x.push(valueX);
-      optionsCoords[direction].y.push(valueY);
-    }
-  }
-  return optionsCoords;
-}
-
-function getValidOptionsCoords(selectedShip, storedShips) {
-  console.log("-----getValidOptionsCoords-------")
-  const length = shipLengths[selectedShip];
-  const options = getAllOptionsCoords(selectedShip, storedShips, length);
-
-  for (let direction in options) {
-
-    let isValid = true;
-
-    for (let i = 0; i < length - 1; i++) {
-      const x = options[direction].x[i];
-      const y = options[direction].y[i];
-      if (!(0 < x && x < 11) || !(0 < y && y < 11)) {
-        isValid = false;
-        break;
-      }
-
-      if (checkCoordsInStoredShips(x, y, storedShips)) {
-        isValid = false;
-        break;
-      }
-
-    }
-
-    if (!isValid) {
-      delete options[direction];
-    }
-  }
-  return options;
-}
 
 // options:
 // function that returns true or false when given an option square - use it to allow or disallow visual representation.

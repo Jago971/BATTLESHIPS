@@ -518,3 +518,8 @@ main {
     box-shadow: none;
   }
 }
+
+.hover:hover {
+  background-color: var(--display-content-green);
+  box-shadow: 0 0 0.5cqw 0.15cqw var(--display-content-green);
+}
