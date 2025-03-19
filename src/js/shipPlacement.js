@@ -21,10 +21,13 @@ function removeShipPlacement(
   playerAreaSquares
 ) {
   if (storedShips.player[selectedShip].x.length) { // only clears selected ship
-    for (let index = 1; index < shipLengths[selectedShip]; index++) {
-      const x = storedShips.player[selectedShip].x[index];
+    for (let index = 0; index < storedShips.player[selectedShip].x.length; index++) { // this needs to loop for the length of the coords not the length of the ship
+      const x = storedShips.player[selectedShip].x[index];            // sometimes the coords will only be initial square, sometimes it will be the full length of the ship
       const y = storedShips.player[selectedShip].y[index];
       const square = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+      playerAreaSquares.forEach((square) => {
+        square.classList.remove("option");
+      });
       square.classList.remove("ship-placement");
     }
   } else { // clears everything except recorded ships
