@@ -68,9 +68,13 @@ function stageInitialCoords(clickedSquare) {
   stagedCoords = coordinates;
 }
 
-function addShipPlacement(x, y) {
+function toggleShipPlacement(x, y, toggle) {
   const square = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
-  square.classList.add("ship-placement");
+  if (toggle) {
+    square.classList.add("ship-placement")
+  } else {
+    square.classList.remove("ship-placement")
+  }
 }
 
 function checkCoordsInStoredShips(x, y, storedShips) {
@@ -195,10 +199,10 @@ function addShipCoordsToStoredShips(clickedOption) {
   }
 }
 
-function addShipPlacementAll() {
+function toggleShipPlacementAll(toggle) {
   for (const ship in storedShips.player) {
     for (let i = 0; i < shipLengths[ship]; i++) {
-      addShipPlacement(storedShips.player[ship].x[index], storedShips.player[ship].y[i])
+      toggleShipPlacement(storedShips.player[ship].x[index], storedShips.player[ship].y[i], toggle)
     }
   }
 }
