@@ -40,7 +40,7 @@ const storedShips = {
 function initialiseGrid() {
   createGrid();
   const playerAreaSquares = document.querySelectorAll(".player .player-area");
-  
+
   toggleHover(playerAreaSquares);
   return playerAreaSquares;
 }
@@ -51,7 +51,7 @@ function initialiseSonar() {
       const sonarEcho = new Audio("/assets/sounds/sonar-echo.mp3");
       sonarEcho.volume = 0.5;
       sonarEcho.loop = true;
-     // sonarEcho.play();
+      // sonarEcho.play();
       sonar = true;
     }
   };
@@ -79,7 +79,7 @@ function initialiseEventListeners(playerAreaSquares) {
     });
 
     square.addEventListener("click", () => {
-      if(square.classList.contains("option")) {
+      if (square.classList.contains("option")) {
         shipLastPlacement(playerAreaSquares, square, storedShips, fleetShips);
       } else {
         shipInitialPlacement(playerAreaSquares, square, storedShips);
