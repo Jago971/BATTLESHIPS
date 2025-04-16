@@ -2,13 +2,7 @@
 
 import { buttonPress } from "./buttonPress.js";
 import { createGrid } from "./CreateGrid.js";
-import {
-  selectShip,
-  shipInitialPlacement,
-  shipInitialHover,
-  shipLastPlacement,
-  toggleHover
-} from "./shipPlacement.js";
+import { shipPlacement } from "./shipPlacement.js";
 
 let sonar = false;
 
@@ -29,19 +23,9 @@ const storedShips = {
   }
 };
 
-// ---stage 3 do :
-// ------event listener -> click grid option
-// ------functionality:
-// ---------remove all option,
-// ---------add .ship-placement to start square, option square, and all in between -> make start, middle, end all green,
-// ---------save coords to list of placedShips -> overwrite existing coordinates if present,
-// ---------repeat from stage 0 (unselected ship) without option to click any of placedShips coords
-
 function initialiseGrid() {
   createGrid();
   const playerAreaSquares = document.querySelectorAll(".player .player-area");
-
-  toggleHover(playerAreaSquares);
   return playerAreaSquares;
 }
 
@@ -51,7 +35,7 @@ function initialiseSonar() {
       const sonarEcho = new Audio("/assets/sounds/sonar-echo.mp3");
       sonarEcho.volume = 0.5;
       sonarEcho.loop = true;
-      // sonarEcho.play();
+      // sonarEcho.play(); ---- Ha lol!
       sonar = true;
     }
   };
@@ -61,31 +45,56 @@ function initialiseEventListeners(playerAreaSquares) {
   const button = document.querySelector(".button .inner");
   const fleetShips = document.querySelectorAll(".fleet-ship");
 
+
   button.addEventListener("click", () => {
     buttonPress(button);
-    toggleHover(playerAreaSquares);
   });
 
   fleetShips.forEach((ship) => {
     ship.addEventListener("click", () => {
-      selectShip(playerAreaSquares, fleetShips, ship, storedShips); // might change
-      // click ship action
+      shipPlacement(storedShips, ship, playerAreaSquares)
     });
   });
 
   playerAreaSquares.forEach((square) => {
-    square.addEventListener("mouseover", () => { // might get rid of - css approach(?)
-      shipInitialHover(playerAreaSquares, square, storedShips);
+    square.addEventListener("mouseover", () => {
+      shipPlacement(storedShips, square, playerAreaSquares)
     });
 
     square.addEventListener("click", () => {
       if (square.classList.contains("option")) {
-        shipLastPlacement(playerAreaSquares, square, storedShips, fleetShips);
+        shipPlacement(storedShips, square, playerAreaSquares)
       } else {
-        shipInitialPlacement(playerAreaSquares, square, storedShips);
+        shipPlacement(storedShips, square, playerAreaSquares)
       }
     });
   });
+
+  // button.addEventListener("click", () => {
+  //   buttonPress(button);
+  //   toggleHover(playerAreaSquares);
+  // });
+
+  // fleetShips.forEach((ship) => {
+  //   ship.addEventListener("click", () => {
+  //     selectShip(playerAreaSquares, fleetShips, ship, storedShips); // might change
+  //     // click ship action
+  //   });
+  // });
+
+  // playerAreaSquares.forEach((square) => {
+  //   square.addEventListener("mouseover", () => { // might get rid of - css approach(?)
+  //     shipInitialHover(playerAreaSquares, square, storedShips);
+  //   });
+
+  //   square.addEventListener("click", () => {
+  //     if (square.classList.contains("option")) {
+  //       shipLastPlacement(playerAreaSquares, square, storedShips, fleetShips);
+  //     } else {
+  //       shipInitialPlacement(playerAreaSquares, square, storedShips);
+  //     }
+  //   });
+  // });
 }
 
 function initialiseGame() {
