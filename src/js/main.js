@@ -44,8 +44,7 @@ function initialiseSonar() {
 function initialiseEventListeners(playerAreaSquares) {
   const button = document.querySelector(".button .inner");
   const fleetShips = document.querySelectorAll(".fleet-ship");
-
-
+  
   button.addEventListener("click", () => {
     buttonPress(button);
   });
@@ -57,10 +56,6 @@ function initialiseEventListeners(playerAreaSquares) {
   });
 
   playerAreaSquares.forEach((square) => {
-    square.addEventListener("mouseover", () => {
-      shipPlacement(storedShips, square, playerAreaSquares)
-    });
-
     square.addEventListener("click", () => {
       if (square.classList.contains("option")) {
         shipPlacement(storedShips, square, playerAreaSquares)
