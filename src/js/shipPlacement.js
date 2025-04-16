@@ -218,7 +218,7 @@ function toggleShipPlacementAll(boolean) {
   }
 }
 
-function checkPlayerStoredShipsAll() {
+function checkPlayerStoredShipsAll(storedShips) {
 
   for (const ship in storedShips.player) {
 
@@ -243,7 +243,7 @@ function resetStage0() {
 
 // #endregion
 
-function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
+export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
   const element = checkClickedElement(clickedElement)
 
   switch (placementStage) {
@@ -256,7 +256,7 @@ function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
         removeSelectedShipCoords(storedShips);
       }
       // starting the process
-      addSelectedShip(clickedShip)
+      addSelectedShip(clickedElement)
       toggleHover(playerAreaSquares, true);
 
       placementStage = 1;
@@ -317,7 +317,7 @@ function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
         toggleShipPlacementAll(true);
         removeSelectedShipAll();
 
-        const placementComplete = checkPlayerStoredShipsAll() ? placementStage = 3 : placementStage = 0
+        const placementComplete = checkPlayerStoredShipsAll(storedShips) ? placementStage = 3 : placementStage = 0
       }
       break;
 
