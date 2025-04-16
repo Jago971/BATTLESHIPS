@@ -5,7 +5,7 @@ export function buttonPress(button) {
 
   button.classList.toggle("pressed");
   buttonClick.play();
-  attackDisplay.classList.toggle("hidden");
+  attackDisplay.classList.toggle("hidden"); // not for production in any way
 
   setTimeout(() => {
     buttonFire.play();
