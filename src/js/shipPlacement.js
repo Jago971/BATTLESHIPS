@@ -220,6 +220,14 @@ function toggleShipPlacementAll(boolean) {
 
 function checkPlayerStoredShipsAll() {
 
+  for (const ship in storedShips.player) {
+
+    if (storedShips.player[ship].x.length != shipLengths[ship]) {
+      return false
+    }
+  }
+  
+  return true
 }
 
 // #region flow regressions
