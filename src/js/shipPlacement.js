@@ -88,7 +88,7 @@ function toggleShipPlacement(coordinates, boolean) {
   }
 }
 
-function checkCoordsInStoredShips(x, y, storedShips) {
+function checkCoordsInStoredShips(coordinates, storedShips) {
 
   let match = false;
 
@@ -102,8 +102,8 @@ function checkCoordsInStoredShips(x, y, storedShips) {
       ) {
         // coord loop
         if (
-          x === storedShips.player[ship].x[index] &&
-          y === storedShips.player[ship].y[index]
+          coordinates.x === storedShips.player[ship].x[index] &&
+          coordinates.y === storedShips.player[ship].y[index]
         ) {
           match = true;
           break;
@@ -158,7 +158,7 @@ function getValidOptionsCoords(selectedShip, storedShips) {
         break;
       }
       // check if already occupied
-      if (checkCoordsInStoredShips(x, y, storedShips)) {
+      if (checkCoordsInStoredShips({x, y}, storedShips)) {
         isValid = false;
         break;
       }
@@ -291,20 +291,22 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
         }
 
       } else if (element === "square") {
-
         const coords = getCoordinates(clickedElement);
-        toggleShipPlacement(coords, true);
-        stageInitialCoords(coords);
-        addOptionSquares(selectedShip, storedShips);
-        toggleHover(playerAreaSquares, false);
-
-        placementStage = 2
+        if (!checkCoordsInStoredShips(coords, storedShips)) {
+          toggleShipPlacement(coords, true);
+          stageInitialCoords(coords);
+          addOptionSquares(selectedShip, storedShips);
+          toggleHover(playerAreaSquares, false);
+  
+          placementStage = 2
+        }
       }
 
       // console.log("stage0", placementStage)
       break;
 
     case 2:
+
       if (element === "fleet") {
 
         if (clickedElement.getAttribute("data-id") === selectedShip) {
@@ -325,12 +327,11 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
         }
 
       } else if (element === "square") {
-        const coords = getCoordinates(clickedElement);
-
+          
         removeOptionSquares(playerAreaSquares)
         toggleShipPlacement(stagedCoords, false)
 
-        toggleShipPlacement(coords, true)
+        toggleShipPlacement(coords, true) 
         stageInitialCoords(coords)
         addOptionSquares(selectedShip, storedShips)
 
