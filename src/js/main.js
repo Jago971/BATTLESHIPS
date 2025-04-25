@@ -23,6 +23,22 @@ const storedShips = {
   }
 };
 
+const instructions = {
+  playersPlacement: "Commander, deploy your fleet! Choose your ship, set its direction,\
+   and position it wisely—our survival depends on it!",
+  playersConfirmation: "All hands on deck! Hit the start button to confirm your fleet's\
+   positions. The enemy is lurking beneath the waves!",
+  playersTurn: "Fire the cannons! Select your target coordinates and let them have it.\
+   A direct hit could turn the tide!",
+  playerHits: "We've hit! Prepare to fire again!",
+  opponentsTurn: "Brace for impact! The enemy is returning fire—watch for damage to our fleet!",
+  outcome:
+  {
+    win: "The battle is won Either way, history will remember this day. Ready to fight again?",
+    lose: "The battle is lost Either way, history will remember this day. Ready to fight again?"
+  }
+}
+
 function initialiseGrid() {
   createGrid();
   const playerAreaSquares = document.querySelectorAll(".player .player-area");
@@ -44,7 +60,7 @@ function initialiseSonar() {
 function initialiseEventListeners(playerAreaSquares) {
   const button = document.querySelector(".button .inner");
   const fleetShips = document.querySelectorAll(".fleet-ship");
-  
+
   button.addEventListener("click", () => {
     buttonPress(button);
   });
