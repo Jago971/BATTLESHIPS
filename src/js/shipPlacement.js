@@ -327,13 +327,19 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
         }
 
       } else if (element === "square") {
-          
-        removeOptionSquares(playerAreaSquares)
-        toggleShipPlacement(stagedCoords, false)
+        const coords = getCoordinates(clickedElement);
 
-        toggleShipPlacement(coords, true) 
-        stageInitialCoords(coords)
-        addOptionSquares(selectedShip, storedShips)
+        if (!checkCoordsInStoredShips(coords, storedShips)) {
+          
+          removeOptionSquares(playerAreaSquares)
+          toggleShipPlacement(stagedCoords, false)
+  
+          toggleShipPlacement(coords, true) 
+          stageInitialCoords(coords)
+          addOptionSquares(selectedShip, storedShips)
+
+        }
+
 
       } else if (element === "option") {
 
