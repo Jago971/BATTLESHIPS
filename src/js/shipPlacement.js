@@ -158,7 +158,7 @@ function getValidOptionsCoords(selectedShip, storedShips) {
         break;
       }
       // check if already occupied
-      if (checkCoordsInStoredShips({x, y}, storedShips)) {
+      if (checkCoordsInStoredShips({ x, y }, storedShips)) {
         isValid = false;
         break;
       }
@@ -252,35 +252,21 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
     case 0:
 
       if (element === "fleet") {
-        // console.log("stage0", placementStage)
-        // Only needed if doing a re-loop from later in the process
-
-        // if (selectedShip !== "unselected"  
-        //   && (storedShips.player[selectedShip].x.length > 0
-        //     || storedShips.player[selectedShip].y.length > 0)) { 
-        //   removeShipPlacementAll();         
-        //   removeSelectedShipCoords(storedShips);
-
-        // }
 
         addSelectedShip(clickedElement)
-        console.log("selectedShip", selectedShip)
         if (storedShips.player[selectedShip].x.length > 0
           || storedShips.player[selectedShip].y.length > 0) {
           removeShipPlacementAll(storedShips);
           removeSelectedShipCoords(storedShips);
         }
-        // check if clicked ship has coordinates - if it does, wipe them. Also remove visual squares
 
         toggleHover(playerAreaSquares, true);
 
         placementStage = 1;
-        // console.log("stage0", placementStage)
       }
       break;
 
     case 1:
-      console.log("selected", selectedShip)
       if (element === "fleet") {
 
         if (clickedElement.getAttribute("data-id") === selectedShip) {
@@ -288,6 +274,11 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
         } else {
           removeSelectedShipAll(storedShips)
           addSelectedShip(clickedElement)
+          if (storedShips.player[selectedShip].x.length > 0
+            || storedShips.player[selectedShip].y.length > 0) {
+            removeShipPlacementAll(storedShips);
+            removeSelectedShipCoords(storedShips);
+          }
         }
 
       } else if (element === "square") {
@@ -297,14 +288,13 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
           stageInitialCoords(coords);
           addOptionSquares(selectedShip, storedShips);
           toggleHover(playerAreaSquares, false);
-  
+
           placementStage = 2
         } else {
           alert("This co-ordinate is occupied");
         }
       }
 
-      // console.log("stage0", placementStage)
       break;
 
     case 2:
@@ -321,7 +311,7 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
           removeOptionSquares(playerAreaSquares)
           toggleHover(playerAreaSquares, true)
 
-          
+
           removeSelectedShipAll(storedShips)
           addSelectedShip(clickedElement)
 
@@ -332,11 +322,11 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
         const coords = getCoordinates(clickedElement);
 
         if (!checkCoordsInStoredShips(coords, storedShips)) {
-          
+
           removeOptionSquares(playerAreaSquares)
           toggleShipPlacement(stagedCoords, false)
-  
-          toggleShipPlacement(coords, true) 
+
+          toggleShipPlacement(coords, true)
           stageInitialCoords(coords)
           addOptionSquares(selectedShip, storedShips)
 
@@ -357,6 +347,22 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
       break;
 
     case 3:
+      if (element === "fleet") {
+
+        addSelectedShip(clickedElement)
+
+        if (storedShips.player[selectedShip].x.length > 0
+          || storedShips.player[selectedShip].y.length > 0) {
+          removeShipPlacementAll(storedShips);
+          removeSelectedShipCoords(storedShips);
+        }
+
+        toggleHover(playerAreaSquares, true);
+
+        placementStage = 1;
+        return false;
+      }
+
       return true;
 
     default:
