@@ -45,8 +45,8 @@ function removeSelectedShipCoords(storedShips) {
 }
 
 function removeSelectedShipAll() {
-  const ships = querySelectorAll(".fleet-ship")
-  for (const ship in ships) {
+  const ships = document.querySelectorAll(".fleet-ship")
+  for (const ship of ships) {
     ship.classList.remove("selected");
   }
   selectedShip = "unselected";
@@ -82,9 +82,9 @@ function stageInitialCoords(coords) {
 function toggleShipPlacement(coordinates, boolean) {
   const square = document.querySelector(`[data-x="${coordinates.x}"][data-y="${coordinates.y}"]`);
   if (boolean) {
-    square.classList.add("ship-placement")
+    square.classList.add("ship-placement");
   } else {
-    square.classList.remove("ship-placement")
+    square.classList.remove("ship-placement");
   }
 }
 
@@ -190,7 +190,7 @@ function removeOptionSquares(playerAreaSquares) {
   });
 }
 
-function addShipCoordsToStoredShips(clickedOption) {
+function addShipCoordsToStoredShips(clickedOption, storedShips) {
   const startX = stagedCoords.x;
   const startY = stagedCoords.y;
 
@@ -209,10 +209,14 @@ function addShipCoordsToStoredShips(clickedOption) {
   }
 }
 
-function toggleShipPlacementAll(boolean) {
+function toggleShipPlacementAll(storedShips, boolean) {
+
   for (const ship in storedShips.player) {
-    for (let i = 0; i < shipLengths[ship]; i++) {
-      toggleShipPlacement(storedShips.player[ship].x[i], storedShips.player[ship].y[i], boolean)
+    if (storedShips.player[ship].x.length > 0) {
+      for (let i = 0; i < shipLengths[ship]; i++) {
+        const coordinates = { x: storedShips.player[ship].x[i], y: storedShips.player[ship].y[i] }
+        toggleShipPlacement(coordinates, boolean)
+      }
     }
   }
 }
@@ -225,7 +229,6 @@ function checkPlayerStoredShipsAll(storedShips) {
       return false
     }
   }
-  
   return true
 }
 
@@ -249,25 +252,25 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
     case 0:
 
       if (element === "fleet") {
-        console.log("stage0", placementStage)
-      // Only needed if doing a re-loop from later in the process
-      if (selectedShip != "unselected"
-        && (storedShips.player[selectedShip].x.length > 0
-          || storedShips.player[selectedShip].y.length > 0)) {
-        removeShipPlacementAll();
-        removeSelectedShipCoords(storedShips);
-      }
-      // starting the process
-      addSelectedShip(clickedElement)
-      toggleHover(playerAreaSquares, true);
+        // console.log("stage0", placementStage)
+        // Only needed if doing a re-loop from later in the process
+        if (selectedShip != "unselected"
+          && (storedShips.player[selectedShip].x.length > 0
+            || storedShips.player[selectedShip].y.length > 0)) {
+          removeShipPlacementAll();
+          removeSelectedShipCoords(storedShips);
+        }
+        // starting the process
+        addSelectedShip(clickedElement)
+        toggleHover(playerAreaSquares, true);
 
-      placementStage = 1;
-      console.log("stage0", placementStage)
-    }
+        placementStage = 1;
+        // console.log("stage0", placementStage)
+      }
       break;
 
     case 1:
-      console.log("stage0", placementStage)
+      // console.log("stage0", placementStage)
       // handle case change
       if (element === "fleet") {
 
@@ -290,7 +293,7 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
         placementStage = 2
       }
 
-      console.log("stage0", placementStage)
+      // console.log("stage0", placementStage)
       break;
 
     case 2:
@@ -318,11 +321,11 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
 
       } else if (element === "option") {
 
-        addShipCoordsToStoredShips(element);
+        addShipCoordsToStoredShips(clickedElement, storedShips);
         removeOptionSquares(playerAreaSquares);
-        toggleShipPlacementAll(true);
+        toggleShipPlacementAll(storedShips, true);
         removeSelectedShipAll();
-
+        
         const placementComplete = checkPlayerStoredShipsAll(storedShips) ? placementStage = 3 : placementStage = 0
       }
       break;
