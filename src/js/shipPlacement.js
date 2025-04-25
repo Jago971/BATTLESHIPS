@@ -118,7 +118,7 @@ function checkCoordsInStoredShips(x, y, storedShips) {
   return match;
 }
 
-function getAllOptionsCoords(selectedShip, storedShips, length) {
+function getAllOptionsCoords(length) {
   let optionsCoords =
   {
     left: { x: [], y: [] }, // SL x X-- , SL x Y
@@ -127,11 +127,10 @@ function getAllOptionsCoords(selectedShip, storedShips, length) {
     bottom: { x: [], y: [] } // SL x X , SL x Y++
   }
 
-  const startX = storedShips.player[selectedShip].x[0];
-  const startY = storedShips.player[selectedShip].y[0];
+  const startX = stagedCoords.x;
+  const startY = stagedCoords.y;
 
   for (let direction in optionsCoords) {
-
     for (let i = 1; i < length; i++) {
       const valueX = startX + (direction === "left" ? -i : direction === "right" ? i : 0);
       const valueY = startY + (direction === "top" ? -i : direction === "bottom" ? i : 0);
@@ -144,7 +143,7 @@ function getAllOptionsCoords(selectedShip, storedShips, length) {
 
 function getValidOptionsCoords(selectedShip, storedShips) {
   const length = shipLengths[selectedShip];
-  const options = getAllOptionsCoords(selectedShip, storedShips, length);
+  const options = getAllOptionsCoords(length);
 
   for (let direction in options) {
 
@@ -272,7 +271,7 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
       // handle case change
       if (element === "fleet") {
 
-        if (element.getAttribute("data-id") === selectedShip) {
+        if (clickedElement.getAttribute("data-id") === selectedShip) {
           resetStage0();
         } else {
           // remove selected ship, add new selected ship
@@ -286,7 +285,7 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
         toggleShipPlacement(coords, true);
         stageInitialCoords(coords);
         addOptionSquares(selectedShip, storedShips);
-        toggleHover(playerAreaSquares, false)
+        toggleHover(playerAreaSquares, false);
 
         placementStage = 2
       }
