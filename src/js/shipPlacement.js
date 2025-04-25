@@ -28,7 +28,7 @@ function checkClickedElement(clickedElement) {
   return "square";
 }
 
-function removeShipPlacementAll() {
+function removeShipPlacementAll(storedShips) {
   const loopLength = shipLengths[selectedShip];
 
   for (let index = 0; index < loopLength; index++) {
@@ -254,14 +254,24 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
       if (element === "fleet") {
         // console.log("stage0", placementStage)
         // Only needed if doing a re-loop from later in the process
-        if (selectedShip != "unselected"
-          && (storedShips.player[selectedShip].x.length > 0
-            || storedShips.player[selectedShip].y.length > 0)) {
-          removeShipPlacementAll();
+
+        // if (selectedShip !== "unselected"  
+        //   && (storedShips.player[selectedShip].x.length > 0
+        //     || storedShips.player[selectedShip].y.length > 0)) { 
+        //   removeShipPlacementAll();         
+        //   removeSelectedShipCoords(storedShips);
+
+        // }
+
+        addSelectedShip(clickedElement)
+        console.log("selectedShip", selectedShip)
+        if (storedShips.player[selectedShip].x.length > 0
+          || storedShips.player[selectedShip].y.length > 0) {
+          removeShipPlacementAll(storedShips);
           removeSelectedShipCoords(storedShips);
         }
-        // starting the process
-        addSelectedShip(clickedElement)
+        // check if clicked ship has coordinates - if it does, wipe them. Also remove visual squares
+
         toggleHover(playerAreaSquares, true);
 
         placementStage = 1;
@@ -325,7 +335,7 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
         removeOptionSquares(playerAreaSquares);
         toggleShipPlacementAll(storedShips, true);
         removeSelectedShipAll();
-        
+
         const placementComplete = checkPlayerStoredShipsAll(storedShips) ? placementStage = 3 : placementStage = 0
       }
       break;
