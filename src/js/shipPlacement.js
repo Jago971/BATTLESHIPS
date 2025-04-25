@@ -234,7 +234,7 @@ function checkPlayerStoredShipsAll(storedShips) {
 
 // #region flow regressions
 
-function resetStage0() {
+function resetStage0(playerAreaSquares) {
   removeSelectedShipAll()
   toggleHover(playerAreaSquares, false)
 
@@ -280,16 +280,19 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
       break;
 
     case 1:
+      console.log("selected", selectedShip)
       // console.log("stage0", placementStage)
       // handle case change
       if (element === "fleet") {
 
         if (clickedElement.getAttribute("data-id") === selectedShip) {
-          resetStage0();
+          resetStage0(playerAreaSquares);
+          console.log("selected", selectedShip)
         } else {
           // remove selected ship, add new selected ship
-          removeSelectedShipAll()
+          removeSelectedShipAll(storedShips)
           addSelectedShip(clickedElement)
+          console.log("selected", selectedShip)
         }
 
       } else if (element === "square") {
