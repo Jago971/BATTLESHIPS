@@ -299,6 +299,8 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
           toggleHover(playerAreaSquares, false);
   
           placementStage = 2
+        } else {
+          alert("This co-ordinate is occupied");
         }
       }
 
@@ -338,6 +340,8 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
           stageInitialCoords(coords)
           addOptionSquares(selectedShip, storedShips)
 
+        } else {
+          alert("This co-ordinate is occupied");
         }
 
 
