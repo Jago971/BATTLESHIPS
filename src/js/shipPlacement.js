@@ -317,6 +317,10 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
           removeOptionSquares(playerAreaSquares)
           toggleHover(playerAreaSquares, true)
 
+          
+          removeSelectedShipAll(storedShips)
+          addSelectedShip(clickedElement)
+
           placementStage = 1
         }
 
