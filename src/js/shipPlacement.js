@@ -69,8 +69,8 @@ function toggleHover(playerAreaSquares, boolean) {
 }
 
 function getCoordinates(square) {
-  const x = Number(clickedSquare.getAttribute("data-x"));
-  const y = Number(clickedSquare.getAttribute("data-y"));
+  const x = Number(square.getAttribute("data-x"));
+  const y = Number(square.getAttribute("data-y"));
   return { x: x, y: y }
   // nuts
 }
@@ -248,6 +248,9 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
 
   switch (placementStage) {
     case 0:
+
+      if (element === "fleet") {
+        console.log("stage0", placementStage)
       // Only needed if doing a re-loop from later in the process
       if (selectedShip != "unselected"
         && (storedShips.player[selectedShip].x.length > 0
@@ -260,13 +263,16 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
       toggleHover(playerAreaSquares, true);
 
       placementStage = 1;
+      console.log("stage0", placementStage)
+    }
       break;
 
     case 1:
+      console.log("stage0", placementStage)
       // handle case change
       if (element === "fleet") {
 
-        if (element.getAttribute("data-id") === selectShip) {
+        if (element.getAttribute("data-id") === selectedShip) {
           resetStage0();
         } else {
           // remove selected ship, add new selected ship
@@ -285,12 +291,13 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
         placementStage = 2
       }
 
+      console.log("stage0", placementStage)
       break;
 
     case 2:
       if (element === "fleet") {
 
-        if (element.getAttribute("data-id") === selectShip) {
+        if (element.getAttribute("data-id") === selectedShip) {
           resetStage0();
         } else {
           toggleShipPlacement(stagedCoords, false)
