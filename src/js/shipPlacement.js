@@ -281,18 +281,13 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
 
     case 1:
       console.log("selected", selectedShip)
-      // console.log("stage0", placementStage)
-      // handle case change
       if (element === "fleet") {
 
         if (clickedElement.getAttribute("data-id") === selectedShip) {
           resetStage0(playerAreaSquares);
-          console.log("selected", selectedShip)
         } else {
-          // remove selected ship, add new selected ship
           removeSelectedShipAll(storedShips)
           addSelectedShip(clickedElement)
-          console.log("selected", selectedShip)
         }
 
       } else if (element === "square") {
@@ -312,8 +307,11 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
     case 2:
       if (element === "fleet") {
 
-        if (element.getAttribute("data-id") === selectedShip) {
-          resetStage0();
+        if (clickedElement.getAttribute("data-id") === selectedShip) {
+          toggleShipPlacement(stagedCoords, false)
+          removeOptionSquares(playerAreaSquares)
+
+          resetStage0(playerAreaSquares);
         } else {
           toggleShipPlacement(stagedCoords, false)
           removeOptionSquares(playerAreaSquares)
