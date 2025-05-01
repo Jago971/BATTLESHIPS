@@ -3,13 +3,15 @@
 import { buttonPress } from "./buttonPress.js";
 import { initialiseGrid } from "./initialiseGrid.js";
 import { shipPlacementHandler } from "./shipPlacement.js";
-import { instructions } from "./instruction.js";
+import { instructions } from "./instructions.js";
 
 
 let gameStage = 0;
 let sonar = false;
 
-const display = document.querySelector(".display > p");
+let currentStage = true;
+const currentHandlers = [];
+export const display = document.querySelector(".display > p");
 const button = document.querySelector(".button .inner");
 const storedShips = {
   player: {
@@ -46,6 +48,10 @@ function initialiseSonar() {
   };
 }
 
+
+// function shipPlacementListeners() {
+// const playerAreaSquares = document.querySelectorAll(".player .player-area");
+
 // fleetShips.forEach((ship) => {
 //   ship.addEventListener("click", () => {
 //     shipPlacementHandler(storedShips, ship, playerAreaSquares)
@@ -62,54 +68,38 @@ function initialiseSonar() {
 //   });
 // });
 
-
-
-
-
-
-
-
-// function shipPlacementListeners(playerAreaSquares) {
-
-// const fleetShips = document.querySelectorAll(".fleet-ship");
 // }
 
-// const handleFleetClick = function (event, param) {
-//   console.log("Button clicked!", param);
-// };
+function initialiseEventListeners(classSelector) {
+  const playerAreaSquares = document.querySelectorAll(".player .player-area");
 
-// const handlePlayerGirdClick = function (event, param) {
-//   console.log("Button clicked!", param);
-// };
+  const nodeList = document.querySelectorAll(classSelector)
 
-// const handleOptionClick = function (event, param) {
-//   console.log("Button clicked!", param);
-// };
+  if (gameStage === 2) {
+    nodeList.forEach((node) => {
+      const handler = () => {
+        currentStage = shipPlacementHandler(storedShips, node, playerAreaSquares);
+      }
+      node.addEventListener('click', handler);
+      currentHandlers.push({ element: node, handler });
+    })
+  } else if (gameStage === 4) {
+    nodeList.forEach((node) => {
+      const handler = () => {
+        attackFunction("We havent written this yet")
+      }
+      node.addEventListener('click', handler);
+      currentHandlers.push({ element: node, handler });
+    });
+  }
+}
 
-// const button = document.getElementById('myButton');
-
-// const placementHandler = function (event) {
-//   handleFleetClick(event, 'Some Param');
-//   handlePlayerGirdClick(event, 'Some Param');
-//   handleOptionClick(event, 'Some Param');
-// };
-
-// const PlayingGameHandler = function (event) {
-//   handleFleetClick(event, 'Some Param');
-//   handlePlayerGirdClick(event, 'Some Param');
-//   handleOptionClick(event, 'Some Param');
-// };
-
-// button.addEventListener('click', placementHandler);
-
-// button.removeEventListener('click', placementHandler);
-
-
-
-
-
-
-
+function removeAllListeners() {
+  currentHandlers.forEach(({ element, handler }) => {
+    element.removeEventListener('click', handler);
+  });
+  currentHandlers.length = 0;
+}
 
 // GAME STAGES
 // 0 - welcome
@@ -126,7 +116,10 @@ function gameStageHandler() {
       initialiseSonar();
       display.innerHTML = instructions.welcome;
       button.addEventListener("click", () => {
-        gameStage++;
+        if(currentStage) {
+          gameStage++;
+          currentStage = false
+        }
         buttonPress(button);
         gameStageHandler();
       });
@@ -134,11 +127,27 @@ function gameStageHandler() {
       break;
 
     case 1:
+      currentStage=true;
       console.log(gameStage)
-      const playerAreaSquares = document.querySelectorAll(".player .player-area");
-      shipPlacementListeners(playerAreaSquares);
+      display.innerHTML = instructions.shipPlacement.intro;
+
       break;
 
+    case 2:
+      console.log(gameStage)
+    
+      display.innerHTML = instructions.shipPlacement.selectShip;
+      initialiseEventListeners(".player .player-area")
+      initialiseEventListeners(".fleet-ship")
+      
+      break;
+
+    case 3:
+      display.innerHTML = "test"
+      console.log(gameStage)
+      removeAllListeners()
+      
+      break;
     default:
       break;
   }
