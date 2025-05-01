@@ -3,8 +3,10 @@
 import { buttonPress } from "./buttonPress.js";
 import { createGrid } from "./CreateGrid.js";
 import { shipPlacement } from "./shipPlacement.js";
+import { instructions } from "./instruction.js";
 
 let sonar = false;
+const display = document.querySelector(".display > p");
 
 const storedShips = {
   player: {
@@ -22,22 +24,6 @@ const storedShips = {
     scout: { x: [], y: [] },
   }
 };
-
-const instructions = {
-  playersPlacement: "Commander, deploy your fleet! Choose your ship, set its direction,\
-   and position it wisely—our survival depends on it!",
-  playersConfirmation: "All hands on deck! Hit the start button to confirm your fleet's\
-   positions. The enemy is lurking beneath the waves!",
-  playersTurn: "Fire the cannons! Select your target coordinates and let them have it.\
-   A direct hit could turn the tide!",
-  playerHits: "We've hit! Prepare to fire again!",
-  opponentsTurn: "Brace for impact! The enemy is returning fire—watch for damage to our fleet!",
-  outcome:
-  {
-    win: "The battle is won Either way, history will remember this day. Ready to fight again?",
-    lose: "The battle is lost Either way, history will remember this day. Ready to fight again?"
-  }
-}
 
 function initialiseGrid() {
   createGrid();
@@ -80,38 +66,13 @@ function initialiseEventListeners(playerAreaSquares) {
       }
     });
   });
-
-  // button.addEventListener("click", () => {
-  //   buttonPress(button);
-  //   toggleHover(playerAreaSquares);
-  // });
-
-  // fleetShips.forEach((ship) => {
-  //   ship.addEventListener("click", () => {
-  //     selectShip(playerAreaSquares, fleetShips, ship, storedShips); // might change
-  //     // click ship action
-  //   });
-  // });
-
-  // playerAreaSquares.forEach((square) => {
-  //   square.addEventListener("mouseover", () => { // might get rid of - css approach(?)
-  //     shipInitialHover(playerAreaSquares, square, storedShips);
-  //   });
-
-  //   square.addEventListener("click", () => {
-  //     if (square.classList.contains("option")) {
-  //       shipLastPlacement(playerAreaSquares, square, storedShips, fleetShips);
-  //     } else {
-  //       shipInitialPlacement(playerAreaSquares, square, storedShips);
-  //     }
-  //   });
-  // });
 }
 
 function initialiseGame() {
   const playerAreaSquares = initialiseGrid();
   initialiseSonar();
   initialiseEventListeners(playerAreaSquares);
+  display.innerHTML = instructions.welcome;
 }
 
 window.onload = initialiseGame;
