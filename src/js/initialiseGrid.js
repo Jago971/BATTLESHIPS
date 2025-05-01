@@ -1,4 +1,4 @@
-export function createGrid() {
+export function initialiseGrid() {
     const containers = document.querySelectorAll(".game-grid")
 
     containers.forEach(container => {
