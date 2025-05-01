@@ -8,24 +8,24 @@ export const instructions = {
         <span class="bold">Press the RED BUTTON to START!</span>
         `,
     shipPlacement: {
-        Intro: `
+        intro: `
         <span class="bold">Admiral</span>,<br><br> Deploy your fleet!<br>
         Choose your ship, set its direction, and position it wisely — our
         survival depends on it!<br><br>
         <span class="bold">Press the RED BUTTON to take COMMAND!</span>
         `,
-        SelectShip:`
+        selectShip:`
         <span class="bold">Admiral</span>,<br><br>
         Choose a ship to place!<br><br>
         <span class="bold">CLICK</span> on your choice from the fleet panel.
         `,
-        SelectInitial: (selectedShip) => `
+        selectInitial: (selectedShip) => `
         <span class="bold">Admiral</span>,<br><br>
         <span class="bold">CLICK</span> the first co-ordinate for your 
         <span class="bold">${selectedShip.toUpperCase()}</span><br><br>
         <span class="bold">OR</span> click a different ship from the fleet panel. 
         `,
-        SelectOption: (selectedShip) => `
+        selectOption: (selectedShip) => `
         <span class="bold">Admiral</span>,<br><br>
         <span class="bold">CLICK</span> a co-ordinate for the end
         of your ${selectedShip} from the flashing 
@@ -33,7 +33,7 @@ export const instructions = {
         <span class="bold">OR</span> click a different first coordinate.<br>
         <span class="bold">OR</span> click a different ship entirely.
         `,
-        AllPlaced: `
+        allPlaced: `
         <span class="bold">All hands on deck!</span><br><br>
         You have positioned the fleet.<br>
         If you wish to make changes,
