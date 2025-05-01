@@ -263,7 +263,7 @@ function resetStage0(playerAreaSquares) {
 
 // #region Placement Handling
 
-export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
+export function shipPlacementHandler(storedShips, clickedElement, playerAreaSquares) {
   const element = checkClickedElement(clickedElement)
   
   switch (placementStage) {
