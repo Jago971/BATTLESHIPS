@@ -1,42 +1,44 @@
 export const instructions = {
     welcome: `
-        Welcome aboard, Admiral.
+        <span class="bold">Welcome aboard, Admiral</span>.<br>
         Set sail on a classic game of 
-        strategy and sea-bound warfare.
-        This is a browser-based implementation of Battleships.
-        Press the red button to begin.
-
-        by Darren Baldwin & Matt Mannings
-        Repository: <a href="https://github.com/Jago971/BATTLESHIPS" target="_blank">BATTLESHIPS</a>
+        strategy and sea-bound warfare.<br><br>
+        By Darren Baldwin & Matt Mannings<br>
+        Repository: <span class="bold"><a href="https://github.com/Jago971/BATTLESHIPS" target="_blank">BATTLESHIPS</a></span><br><br>
+        <span class="bold">Press the RED BUTTON to START!</span>
         `,
     shipPlacement: {
         Intro: `
-        Admiral, deploy your fleet! Choose your ship,
-        set its direction, and position it wisely — our
-        survival depends on it!
-        Press the red button to take command!
+        <span class="bold">Admiral</span>,<br><br> Deploy your fleet!<br>
+        Choose your ship, set its direction, and position it wisely — our
+        survival depends on it!<br><br>
+        <span class="bold">Press the RED BUTTON to take COMMAND!</span>
         `,
         SelectShip:`
-        Admiral, choose a ship to place!
-        Click on your choice from the fleet panel.
+        <span class="bold">Admiral</span>,<br><br>
+        Choose a ship to place!<br><br>
+        <span class="bold">CLICK</span> on your choice from the fleet panel.
         `,
-        PlaceInitial: (selectedShip) => `
-        Admiral, click the first co-ordinate for your 
-        ${selectedShip}, or click a different ship
-        from the fleet panel. 
+        SelectInitial: (selectedShip) => `
+        <span class="bold">Admiral</span>,<br><br>
+        <span class="bold">CLICK</span> the first co-ordinate for your 
+        <span class="bold">${selectedShip.toUpperCase()}</span><br><br>
+        <span class="bold">OR</span> click a different ship from the fleet panel. 
         `,
         SelectOption: (selectedShip) => `
-        Admiral, decide the co-ordinate for the end
+        <span class="bold">Admiral</span>,<br><br>
+        <span class="bold">CLICK</span> a co-ordinate for the end
         of your ${selectedShip} from the flashing 
-        options. Click your chosen option to place your
-        ${selectedShip}. Or, click a different
-        first coordinate. Or, click a different ship entirely.
+        options.<br><br>
+        <span class="bold">OR</span> click a different first coordinate.<br>
+        <span class="bold">OR</span> click a different ship entirely.
         `,
         AllPlaced: `
-        All hands on deck! Hit the red button to confirm
-        the positions of your fleet and start the battle.
+        <span class="bold">All hands on deck!</span><br><br>
+        You have positioned the fleet.<br>
         If you wish to make changes,
-        simply click the ship you wish to reposition.
+        simply click the ship you wish to reposition.<br><br><br>
+        <span class="bold">Press the RED BUTTON to DEPLOY!</span>
         `
     }
 }
