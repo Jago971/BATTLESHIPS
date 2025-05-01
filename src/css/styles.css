@@ -31,6 +31,10 @@ p {
   font-family: anonymous pro;
 }
 
+a {
+  color: var(--display-brighter-green);
+}
+
 body {
   background-color: var(--background);
   height: 100vh;
