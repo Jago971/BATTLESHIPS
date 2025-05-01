@@ -1,3 +1,5 @@
+// #region Data
+
 let selectedShip = "unselected";
 let placementStage = 0;
 let stagedCoords;
@@ -10,13 +12,9 @@ const shipLengths = {
   scout: 2,
 };
 
-/*  Ship Placement Stages:
-*   0 = no selected ship, no hover square
-*   1 = selected ship, green hover square
-*   2 = selected ship, initial square, flashing option squares, no hovering
-*/
+// #endregion
 
-// #region UTILS
+// #region Functions
 
 function redraw() {
   document.body.offsetHeight;
@@ -72,7 +70,6 @@ function getCoordinates(square) {
   const x = Number(square.getAttribute("data-x"));
   const y = Number(square.getAttribute("data-y"));
   return { x: x, y: y }
-  // nuts
 }
 
 function stageInitialCoords(coords) {
@@ -121,10 +118,10 @@ function checkCoordsInStoredShips(coordinates, storedShips) {
 function getAllOptionsCoords(length) {
   let optionsCoords =
   {
-    left: { x: [], y: [] }, // SL x X-- , SL x Y
-    right: { x: [], y: [] }, // SL x X++ , SL x Y
-    top: { x: [], y: [] }, // SL x X, SL x Y--
-    bottom: { x: [], y: [] } // SL x X , SL x Y++
+    left: { x: [], y: [] },
+    right: { x: [], y: [] },
+    top: { x: [], y: [] },
+    bottom: { x: [], y: [] }
   }
 
   const startX = stagedCoords.x;
@@ -157,7 +154,6 @@ function getValidOptionsCoords(selectedShip, storedShips) {
         isValid = false;
         break;
       }
-      // check if already occupied
       if (checkCoordsInStoredShips({ x, y }, storedShips)) {
         isValid = false;
         break;
@@ -232,7 +228,6 @@ function checkPlayerStoredShipsAll(storedShips) {
   return true
 }
 
-// #region flow regressions
 
 function resetStage0(playerAreaSquares) {
   removeSelectedShipAll()
@@ -243,7 +238,7 @@ function resetStage0(playerAreaSquares) {
 
 // #endregion
 
-// #endregion
+// #region Placement Handling
 
 export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
   const element = checkClickedElement(clickedElement)
@@ -370,206 +365,4 @@ export function shipPlacement(storedShips, clickedElement, playerAreaSquares) {
   }
 }
 
-// function removeShipPlacement(
-//   selectedShip,
-//   storedShips,
-//   playerAreaSquares
-// ) {
-//   if (storedShips.player[selectedShip].x.length) { // only clears selected ship
-//     for (let index = 0; index < storedShips.player[selectedShip].x.length; index++) { // this needs to loop for the length of the coords not the length of the ship
-//       const x = storedShips.player[selectedShip].x[index];            // sometimes the coords will only be initial square, sometimes it will be the full length of the ship
-//       const y = storedShips.player[selectedShip].y[index];
-//       const square = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
-//       playerAreaSquares.forEach((square) => {
-//         square.classList.remove("option");
-//       });
-//       square.classList.remove("ship-placement");
-//     }
-//   } else { // clears everything except recorded ships
-//     playerAreaSquares.forEach((square) => {
-//       const x = Number(square.getAttribute("data-x"));
-//       const y = Number(square.getAttribute("data-y"));
-
-//       let isShipSquare = false;
-
-//       for (const ship in storedShips.player) {
-//         // ship loop
-//         if (storedShips.player[ship].x.length) {
-//           for (
-//             let index = 0;
-//             index < storedShips.player[ship].x.length;
-//             index++
-//           ) {
-//             // coord loop
-//             if (
-//               x === storedShips.player[ship].x[index] &&
-//               y === storedShips.player[ship].y[index]
-//             ) {
-//               isShipSquare = true;
-//               break;
-//               // break out of coord loop
-//             }
-//           }
-//         }
-//         if (isShipSquare) break;
-//         // break out of ship loop
-//       }
-
-//       if (!isShipSquare) {
-//         square.classList.remove("ship-placement");
-//       }
-//     });
-//   }
-// }
-
-// export function selectShip(
-//   playerAreaSquares,
-//   allShips,
-//   clickedShip,
-//   storedShips
-// ) {
-//   const shipId = clickedShip.getAttribute("data-id");
-
-//   shipPlacementStage = 1;
-
-//   playerAreaSquares.forEach((square) => {
-//     square.classList.remove("option");
-//   });
-
-//   if (storedShips.player[shipId].x.length) {
-//     storedShips.player[shipId].x = [];
-//   }
-//   // Removes all pre-existing coords
-//   removeShipPlacement(shipId, storedShips, playerAreaSquares);
-
-//   if (selectedShip === shipId) {
-//     selectedShip = "unselected";
-//     clickedShip.classList.remove("selected");
-//     shipPlacementStage = 0;
-//     return;
-//   }
-
-//   selectedShip = shipId;
-
-//   allShips.forEach((ship) => {
-//     ship.classList.remove("selected");
-//   });
-
-//   clickedShip.classList.add("selected");
-// }
-
-// export function shipInitialHover(
-//   playerAreaSquares,
-//   hoveredSquare,
-//   storedShips
-// ) {
-//   if (shipPlacementStage === 1) {
-//     removeShipPlacement(selectedShip, storedShips, playerAreaSquares);
-
-//     hoveredSquare.classList.add("ship-placement");
-//   }
-// }
-
-// export function shipInitialPlacement(
-//   playerAreaSquares,
-//   clickedSquare,
-//   storedShips
-// ) {
-//   const x = Number(clickedSquare.getAttribute("data-x"));
-//   const y = Number(clickedSquare.getAttribute("data-y"));
-
-//   if (shipPlacementStage >= 1) {
-//     // Needs initial square click functionality in both stage 1 and stage 2
-//     // If placing first square, need to be able to click it
-//     // If initial square already placed but want to change location - still needs click functionality
-
-//     // If not a valid option square, needs to allow user to pick new initial square - has lost this functionality
-
-//     removeShipPlacement(selectedShip, storedShips, playerAreaSquares);
-
-//     if (checkCoordsInStoredShips(x, y, storedShips)) {
-//       alert("This co-ordinate is occupied");
-//       return
-//     }
-
-//     storedShips.player[selectedShip].x[0] = x;
-//     storedShips.player[selectedShip].y[0] = y;
-
-//     clickedSquare.classList.add("ship-placement");
-
-//     shipPlacementStage = 2;
-
-//     const validOptionsCoords = getValidOptionsCoords(selectedShip, storedShips)
-
-//     for (const option in validOptionsCoords) {
-//       const length = validOptionsCoords[option].x.length - 1;
-//       const optionSquare = document.querySelector(
-//         `[data-x="${validOptionsCoords[option].x[length]}"][data-y="${validOptionsCoords[option].y[length]}"]`
-//       );
-//       optionSquare.classList.add("option");
-//     }
-//   }
-// }
-
-// export function shipLastPlacement(
-//   playerAreaSquares,
-//   clickedSquare,
-//   storedShips,
-//   allShips
-// ) {
-//   const startX = storedShips.player[selectedShip].x[0];
-//   const startY = storedShips.player[selectedShip].y[0];
-//   const endX = Number(clickedSquare.getAttribute("data-x"));
-//   const endY = Number(clickedSquare.getAttribute("data-y"));
-
-//   playerAreaSquares.forEach((playerSquare) => {
-//     playerSquare.classList.remove("option");
-//   });
-
-//   addRemainingShipCoordinates(storedShips, startX, startY, endX, endY);
-
-//   for (let index = 1; index < shipLengths[selectedShip]; index++) {
-//     const x = storedShips.player[selectedShip].x[index];
-//     const y = storedShips.player[selectedShip].y[index];
-//     const square = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
-//     square.classList.add("ship-placement");
-//   }
-//   allShips.forEach((ship) => {
-//     ship.classList.remove("selected");
-//   });
-//   selectedShip = "unselected";
-//   shipPlacementStage = 0;
-// }
-
-// function addRemainingShipCoordinates(storedShips, startX, startY, endX, endY) {
-//   const deltaX = startX - endX;
-//   const deltaY = startY - endY;
-
-//   storedShips.player[selectedShip].x = [];
-//   storedShips.player[selectedShip].y = [];
-
-//   for (let i = 0; i < shipLengths[selectedShip]; i++) {
-//     let x = startX + (deltaX === 0 ? 0 : deltaX < 0 ? i : -i);
-//     let y = startY + (deltaY === 0 ? 0 : deltaY < 0 ? i : -i);
-//     storedShips.player[selectedShip].x.push(x);
-//     storedShips.player[selectedShip].y.push(y);
-//   }
-// }
-
-// // S3T6 - no overlapping:
-// // ---functionality:
-// // ------new function to check if coords match any stored coords -> return boolean -> use in if statement to allow initial placement or option
-
-
-// // options:
-// // function that returns true or false when given an option square - use it to allow or disallow visual representation.
-// // simple function that can be reused for each option square. one job.
-// // function that returns a full array of all true/existing options and then displays all of those options.
-// // could be messy with lots going on inside - will make use of checking its true redundant
-
-// //  helper function params - length - 4 generic loop length-1 - iterate over x,y coords, increment or decrement x or y(for given direction) - 
-// //    return array of keyed arrays of coords for given direction and axis
-
-// //  parms - storedships(which contains x[0] and y[0]), selectedship(has ship length)
-// //    first check if start x/y + ship length over or under 10 or 0 - if true break
-// //    if first check passed - run check coords function - false continue, true break.
+// #endregion
