@@ -1,3 +1,6 @@
+import { display } from "./main.js";
+import { instructions } from "./instructions.js";
+
 // #region Data Variables
 
 let selectedShip = "unselected";
@@ -124,14 +127,14 @@ function removeSelectedShipCoords(storedShips) {
 function addShipCoordsToStoredShips(clickedOption, storedShips) {
   const startX = stagedCoords.x;
   const startY = stagedCoords.y;
-  
+
   const endCoordinates = getCoordinates(clickedOption)
   const endX = endCoordinates.x
   const endY = endCoordinates.y
-  
+
   const deltaX = startX - endX;
   const deltaY = startY - endY;
-  
+
   for (let i = 0; i < shipLengths[selectedShip]; i++) {
     let x = startX + (deltaX === 0 ? 0 : deltaX < 0 ? i : -i);
     let y = startY + (deltaY === 0 ? 0 : deltaY < 0 ? i : -i);
@@ -212,7 +215,7 @@ function getValidOptionsCoords(selectedShip, storedShips) {
 // #region Data-Utils
 
 function checkCoordsInStoredShips(coordinates, storedShips) {
-  
+
   let match = false;
 
   for (const ship in storedShips.player) {
@@ -242,13 +245,15 @@ function checkCoordsInStoredShips(coordinates, storedShips) {
 }
 
 function checkPlayerStoredShipsAll(storedShips) {
-  
+
   for (const ship in storedShips.player) {
-    
+
     if (storedShips.player[ship].x.length != shipLengths[ship]) {
+      display.innerHTML = instructions.shipPlacement.selectShip;
       return false
     }
   }
+  display.innerHTML = instructions.shipPlacement.allPlaced;
   return true
 }
 
@@ -265,7 +270,7 @@ function resetStage0(playerAreaSquares) {
 
 export function shipPlacementHandler(storedShips, clickedElement, playerAreaSquares) {
   const element = checkClickedElement(clickedElement)
-  
+
   switch (placementStage) {
     case 0:
 
@@ -278,6 +283,7 @@ export function shipPlacementHandler(storedShips, clickedElement, playerAreaSqua
           removeSelectedShipCoords(storedShips);
         }
 
+        display.innerHTML = instructions.shipPlacement.selectInitial(selectedShip);
         toggleHover(playerAreaSquares, true);
 
         placementStage = 1;
@@ -285,6 +291,8 @@ export function shipPlacementHandler(storedShips, clickedElement, playerAreaSqua
       break;
 
     case 1:
+
+
       if (element === "fleet") {
 
         if (clickedElement.getAttribute("data-id") === selectedShip) {
@@ -292,6 +300,7 @@ export function shipPlacementHandler(storedShips, clickedElement, playerAreaSqua
         } else {
           removeSelectedShipAll(storedShips)
           addSelectedShip(clickedElement)
+          display.innerHTML = instructions.shipPlacement.selectInitial(selectedShip);
           if (storedShips.player[selectedShip].x.length > 0
             || storedShips.player[selectedShip].y.length > 0) {
             removeShipPlacementAll(storedShips);
@@ -306,7 +315,7 @@ export function shipPlacementHandler(storedShips, clickedElement, playerAreaSqua
           stageInitialCoords(coords);
           addOptionSquares(selectedShip, storedShips);
           toggleHover(playerAreaSquares, false);
-
+          display.innerHTML = instructions.shipPlacement.selectOption(selectedShip);
           placementStage = 2
         } else {
           alert("This co-ordinate is occupied");
@@ -318,7 +327,6 @@ export function shipPlacementHandler(storedShips, clickedElement, playerAreaSqua
     case 2:
 
       if (element === "fleet") {
-
         if (clickedElement.getAttribute("data-id") === selectedShip) {
           toggleShipPlacement(stagedCoords, false)
           removeOptionSquares(playerAreaSquares)
@@ -332,6 +340,7 @@ export function shipPlacementHandler(storedShips, clickedElement, playerAreaSqua
 
           removeSelectedShipAll(storedShips)
           addSelectedShip(clickedElement)
+          display.innerHTML = instructions.shipPlacement.selectInitial(selectedShip);
 
           placementStage = 1
         }
@@ -347,7 +356,7 @@ export function shipPlacementHandler(storedShips, clickedElement, playerAreaSqua
           toggleShipPlacement(coords, true)
           stageInitialCoords(coords)
           addOptionSquares(selectedShip, storedShips)
-
+          display.innerHTML = instructions.shipPlacement.selectOption(selectedShip);
         } else {
           alert("This co-ordinate is occupied");
         }
@@ -359,15 +368,23 @@ export function shipPlacementHandler(storedShips, clickedElement, playerAreaSqua
         removeOptionSquares(playerAreaSquares);
         toggleShipPlacementAll(storedShips, true);
         removeSelectedShipAll();
-
-        const placementComplete = checkPlayerStoredShipsAll(storedShips) ? placementStage = 3 : placementStage = 0
+        if (checkPlayerStoredShipsAll(storedShips)) {
+          placementStage = 3
+          display.innerHTML = instructions.shipPlacement.allPlaced
+        } else {
+          placementStage = 0
+          display.innerHTML = instructions.shipPlacement.selectShip
+        }
       }
       break;
 
     case 3:
+
       if (element === "fleet") {
 
         addSelectedShip(clickedElement)
+        display.innerHTML = instructions.shipPlacement.selectInitial(selectedShip);
+
 
         if (storedShips.player[selectedShip].x.length > 0
           || storedShips.player[selectedShip].y.length > 0) {
@@ -380,7 +397,6 @@ export function shipPlacementHandler(storedShips, clickedElement, playerAreaSqua
         placementStage = 1;
         return false;
       }
-
       return true;
 
     default:
